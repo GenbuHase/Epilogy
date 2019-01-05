@@ -1,12 +1,27 @@
 <template>
-	<Epilogy-Menu></Epilogy-Menu>
+	<Div></Div>
 </template>
 
 <script>
-	export default {};
+	export default {
+		name: "Epilogy-Menu",
+		
+		data () {
+			return {
+				isOpened: false
+			}
+		}
+	};
 </script>
 
 <style lang = "scss" scoped>
-	@import "../../Common";
-	@import "./Menu";
+	@import "../../variables";
+	
+	#{$prefix} {
+		&-menu {
+			display: flex;
+
+			&:not(.isOpened) { display: none }
+		}
+	}
 </style>
