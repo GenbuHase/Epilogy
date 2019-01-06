@@ -4,6 +4,6 @@ import Epilogy from "./Epilogy.vue";
 Vue.config.productionTip = false;
 
 new Vue({
-	el: "#app",
+	el: "Epilogy",
 	render: h => h(Epilogy),
 });

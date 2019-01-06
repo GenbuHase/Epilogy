@@ -1,16 +1,16 @@
 <template>
-	<Canvas Class = "epilogy" :Width = "screenSize" :Height = "screenSize">
-		<Menu></Menu>
-	</Canvas>
+	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
+		<Canvas Class = "epilogy" :Width = "screenSize" :Height = "screenSize"></Canvas>
+
+		<Menu title = "Menu TEST"></Menu>
+	</Epilogy>
 </template>
 
 <script>
 	import Menu from "./components/menu/Menu.vue";
 
 	export default {
-		components: {
-			Menu
-		},
+		components: { Menu },
 
 		data () {
 			return {
@@ -41,14 +41,27 @@
 </script>
 
 <style lang="scss">
-	@import "./common";
+	* { box-sizing: border-box }
+
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+	}
 </style>
 
 <style lang="scss" scoped>
 	@import "./variables";
 
-	.#{$prefix} {
+	#{$prefix} {
+		position: relative;
 		display: block;
 		margin: 0 auto;
+
+		.#{$prefix} {
+			position: absolute;
+
+			background-color: #cccccc;
+		}
 	}
 </style>
