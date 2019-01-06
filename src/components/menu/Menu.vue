@@ -1,18 +1,14 @@
 <template>
 	<Epilogy-Menu :open = "attrs.open && ''">
-		<H1 Class = "epilogy-menutitle">{{ attrs.title }}</H1>
-		<UL>
-			<Menuitem v-for = "item of items" :key = "item"></Menuitem>
-		</UL>
+		<Epilogy-Menutitle>{{ attrs.title }}</Epilogy-Menutitle>
+		<Epilogy-Menulist>
+			<Epilogy-Menuitem v-for = "item of items" :key = "item">{{ item }}</Epilogy-Menuitem>
+		</Epilogy-Menulist>
 	</Epilogy-Menu>
 </template>
 
 <script>
-	import Menuitem from "./Menuitem.vue";
-
 	export default {
-		components: { Menuitem },
-
 		props: {
 			title: { type: String, required: false },
 			open: { type: Boolean, required: false }
@@ -37,7 +33,6 @@
 
 		created () {
 			window.addEventListener("keydown", e => {
-				console.log(e);
 				if (e.keyCode === 88) this.toggle();
 			});
 		}
@@ -56,16 +51,38 @@
 			width: 100%;
 			height: 100%;
 
-			&:not([open]) { display: none }
+			user-select: none;
+
+			transition: opacity 0.25s ease;
+
+			&:not([open]) { opacity: 0 }
 		}
-	}
 
-	.#{$prefix} {
 		&-menutitle {
-			margin: 7.5vmin 0;
+			margin: 7.5vh 0;
 
-			font-size: 5vmin;
+			font-size: 5vh;
+			font-weight: bold;
 			text-align: center;
+		}
+
+		&-menulist {
+			display: block;
+			flex: 1;
+			padding: 0 15vh;
+
+			overflow: auto;
+		}
+
+		&-menuitem {
+			display: list-item;
+
+			font-size: 3.5vh;
+			text-align: center;
+
+			list-style: none;
+
+			&:hover { list-style-image: url("../../assets/menuitem_arrow.svg") }
 		}
 	}
 </style>

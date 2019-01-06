@@ -2,7 +2,7 @@
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<Canvas Class = "epilogy-gameScreen" :Width = "screenSize" :Height = "screenSize"></Canvas>
 
-		<Menu title = "Menu TEST"></Menu>
+		<Menu title = "Main Menu"></Menu>
 	</Epilogy>
 </template>
 

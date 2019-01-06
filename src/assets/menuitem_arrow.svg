@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="epilogy-menuitem_arrow"
+   version="1.1"
+   viewBox="0 0 4.2333333 4.2333333"
+   height="16"
+   width="16"
+   sodipodi:docname="menuitem_arrow.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="745"
+     id="namedview8"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="1.2488333"
+     inkscape:cx="159.20493"
+     inkscape:cy="54.016765"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="epilogy-menuitem_arrow" />
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     sodipodi:type="star"
+     id="path3729"
+     sodipodi:sides="3"
+     sodipodi:cx="47.598816"
+     sodipodi:cy="72.518806"
+     sodipodi:r1="54.962379"
+     sodipodi:r2="27.481192"
+     sodipodi:arg1="0.52359878"
+     sodipodi:arg2="1.5707963"
+     inkscape:flatsided="false"
+     inkscape:rounded="0"
+     inkscape:randomized="0"
+     d="m 95.197633,99.999996 -47.598816,2e-6 L -1.0639556e-6,99.999996 23.799405,58.778211 47.598816,17.556427 71.398226,58.77821 Z"
+     style="stroke-width:0.26458332"
+     transform="matrix(0,0.04446889,-0.05134825,0,5.1348248,0)"
+     inkscape:transform-center-x="-0.70555567" />
+</svg>
