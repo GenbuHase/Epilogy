@@ -1,6 +1,6 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
-		<Canvas Class = "epilogy" :Width = "screenSize" :Height = "screenSize"></Canvas>
+		<Canvas Class = "epilogy-gameScreen" :Width = "screenSize" :Height = "screenSize"></Canvas>
 
 		<Menu title = "Menu TEST"></Menu>
 	</Epilogy>
@@ -55,12 +55,12 @@
 
 	#{$prefix} {
 		position: relative;
+
 		display: block;
 		margin: 0 auto;
 
-		.#{$prefix} {
+		.#{$prefix}-gameScreen {
 			position: absolute;
-
 			background-color: #cccccc;
 		}
 	}
