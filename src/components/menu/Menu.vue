@@ -61,6 +61,7 @@
 		&-menutitle {
 			margin: 7.5vh 0;
 
+			color: $menu-title-color;
 			font-size: 5vh;
 			font-weight: bold;
 			text-align: center;
@@ -77,12 +78,13 @@
 		&-menuitem {
 			display: list-item;
 
+			line-height: 2;
 			font-size: 3.5vh;
 			text-align: center;
 
 			list-style: none;
 
-			&:hover { list-style-image: url("../../assets/menuitem_arrow.svg") }
+			&:hover { list-style-image: url("./assets/menuitem_arrow.svg") }
 		}
 	}
 </style>
