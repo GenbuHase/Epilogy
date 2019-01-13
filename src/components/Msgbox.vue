@@ -10,6 +10,18 @@
 			return {
 
 			};
+		},
+
+		methods: {
+			dismiss () {
+				this.$el.remove();
+			}
+		},
+
+		created () {
+			window.addEventListener("keydown", e => {
+				if (e.keyCode === 13) this.dismiss();
+			});
 		}
 	};
 </script>
@@ -32,6 +44,21 @@
 			border: 0.75vh ridge $dialog-border-color;
 			
 			color: $dialog-text-color;
+
+			&::after {
+				content: "▼";
+
+				position: absolute;
+				right: 2vmin;
+				bottom: 2vmin;
+
+				animation: dialog-indicator 0.75s linear infinite alternate;
+
+				@keyframes dialog-indicator {
+					0% { opacity: 0 }
+					100% { opacity: 1 }
+				}
+			}
 		}
 	}
 </style>

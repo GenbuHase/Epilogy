@@ -47,9 +47,11 @@
 <style lang="scss">
 	* { box-sizing: border-box }
 
-	html,
+	html {
+		font-family: "メイリオ", Meiryo;
+	}
+
 	body {
-		height: 100%;
 		margin: 0;
 	}
 </style>

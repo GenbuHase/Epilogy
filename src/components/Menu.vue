@@ -33,7 +33,7 @@
 
 		created () {
 			window.addEventListener("keydown", e => {
-				if (e.keyCode === 88) this.toggle();
+				if (e.keyCode === 32) this.toggle();
 			});
 		}
 	};
@@ -55,7 +55,7 @@
 			z-index: 1;
 			user-select: none;
 
-			transition: opacity 0.25s ease;
+			transition: opacity 0.2s ease;
 
 			&:not([open]) { opacity: 0 }
 		}
