@@ -3,10 +3,12 @@ $prefix: "epilogy";
 /* 1. Basic Colors */
 
 /* 2. Dialog Colors */
-$dialog-background-color: #ddd;
 $dialog-text-color: #ffffff;
+$dialog-background-color: url("../assets/dialog-background.png");
+$dialog-border-color: #f06292;
 
 /* 3. Menu Colors */
-$menu-foreground-color: RGBA(0, 0, 0, 0.6);
-$menu-title-color: #ed143d;
-$menu-item-color: none;
+$menu-title-color: #d32f2f;
+$menu-item-color: #e57373;
+$menu-selected-arrow-color: darken($menu-item-color, 8%);
+$menu-background-color: RGBA(0, 0, 0, 0.6);

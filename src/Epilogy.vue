@@ -1,16 +1,20 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
-		<Canvas Class = "epilogy-gameScreen" :Width = "screenSize" :Height = "screenSize"></Canvas>
-
 		<Menu title = "Main Menu"></Menu>
+
+		<Msgbox>
+			〇〇<Br />
+			「テストメッセージ」
+		</Msgbox>
 	</Epilogy>
 </template>
 
 <script>
-	import Menu from "./components/menu/Menu.vue";
+	import Menu from "./components/Menu.vue";
+	import Msgbox from "./components/Msgbox.vue";
 
 	export default {
-		components: { Menu },
+		components: { Menu, Msgbox },
 
 		data () {
 			return {
@@ -58,10 +62,5 @@
 
 		display: block;
 		margin: 0 auto;
-
-		.#{$prefix}-gameScreen {
-			position: absolute;
-			background-color: #cccccc;
-		}
 	}
 </style>

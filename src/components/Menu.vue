@@ -40,7 +40,7 @@
 </script>
 
 <style lang = "scss" scoped>
-	@import "../../variables";
+	@import "../variables";
 	
 	#{$prefix} {
 		&-menu {
@@ -51,6 +51,8 @@
 			width: 100%;
 			height: 100%;
 
+			background: $menu-background-color;
+			z-index: 1;
 			user-select: none;
 
 			transition: opacity 0.25s ease;
@@ -77,14 +79,23 @@
 
 		&-menuitem {
 			display: list-item;
-
-			line-height: 2;
-			font-size: 3.5vh;
-			text-align: center;
-
 			list-style: none;
 
-			&:hover { list-style-image: url("./assets/menuitem_arrow.svg") }
+			color: $menu-item-color;
+			font-size: 3.5vh;
+			line-height: 2;
+			text-align: center;
+
+			&:hover {
+				&::before {
+					content: "▶";
+					
+					display: inline;
+					margin: 0 1em 0 -2em;
+
+					color: $menu-selected-arrow-color;
+				}
+			}
 		}
 	}
 </style>
