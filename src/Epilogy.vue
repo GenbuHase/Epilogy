@@ -1,7 +1,7 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<Img :src = "null" />
-		<Dialogs></Dialogs>
+		<Msgbox />
 
 		<Menu title = "Main Menu"></Menu>
 	</Epilogy>
@@ -9,26 +9,26 @@
 
 <script>
 	import Menu from "./components/Menu.vue";
-	import Dialogs from "./components/Dialogs.vue";
+	import Msgbox from "./components/Msgbox.vue";
 
 	export default {
-		components: { Menu, Dialogs },
+		components: { Menu, Msgbox },
 
 		data () {
 			return {
-				system: {
-					width: window.innerWidth,
-					height: window.innerHeight
-				},
-				
 				status: {
 					heroName: "",
 					heroineName: "",
 
 					storyMode: 1,
-					chapter: "",
-					section: "",
-					dialogueId: 0
+					chapter: null,
+					section: null,
+					dialogueId: null
+				},
+				
+				system: {
+					width: window.innerWidth,
+					height: window.innerHeight
 				},
 
 				config: {
@@ -40,6 +40,7 @@
 		computed: {
 			screenSize () { return Math.min(this.system.width, this.system.height) },
 
+			/** @return {Array} */
 			stories () {
 				try {
 					return require(`./locales/story${ this.status.storyMode }.${ this.config.locale }.json`);
@@ -50,8 +51,7 @@
 
 			dialogues () {
 				const { chapter, section } = this.status;
-
-				return this.stories[`${ chapter }${ section ? "." + section : "" }`] || [];
+				return this.loadDialogues(chapter, section);
 			}
 		},
 
@@ -79,6 +79,28 @@
 				try {
 					this.config = JSON.parse(window.localStorage.getItem("epilogy-config"));
 				} catch (error) {}
+			},
+
+			loadDialogues (chapter, section) {
+				const dialogues = this.stories[`${ chapter }${ section ? " " + section : "" }`] || [];
+				return this.formatDialogues(dialogues);
+			},
+
+			formatDialogues (dialogues) {
+				const formatted = [];
+
+				for (const dialogue of dialogues) {
+					if (dialogue.type) formatted.push(dialogue);
+
+					if (typeof dialogue === "string" || Array.isArray(dialogue)) {
+						formatted.push({
+							type: "message",
+							value: dialogue
+						});
+					}
+				}
+
+				return formatted;
 			}
 		},
 
