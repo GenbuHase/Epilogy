@@ -43,9 +43,9 @@
 			/** @return {Array} */
 			stories () {
 				try {
-					return require(`./locales/story${ this.status.storyMode }.${ this.config.locale }.json`);
+					return require(`./stories/story${ this.status.storyMode }.${ this.config.locale }.json`);
 				} catch (error) {
-					return require(`./locales/story${ this.status.storyMode }.default.json`);
+					return require(`./stories/story${ this.status.storyMode }.default.json`);
 				}
 			},
 
@@ -87,20 +87,22 @@
 			},
 
 			formatDialogues (dialogues) {
-				const formatted = [];
+				const formattedCollection = [];
 
 				for (const dialogue of dialogues) {
-					if (dialogue.type) formatted.push(dialogue);
-
 					if (typeof dialogue === "string" || Array.isArray(dialogue)) {
-						formatted.push({
+						formattedCollection.push({
 							type: "message",
 							value: dialogue
 						});
+
+						continue;
 					}
+					
+					if (dialogue.type) formattedCollection.push(dialogue);
 				}
 
-				return formatted;
+				return formattedCollection;
 			}
 		},
 

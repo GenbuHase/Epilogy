@@ -8,6 +8,16 @@
 		],
 
 		{
+			"type": "prompt",
+			"value": [
+				["2章へ", { "chapter": 2 }],
+				["3節へ", { "section": 3 }],
+				["2章3節へ", { "chapter": 2, "section": 3 }],
+				["8メッセージ目へ", { "dialogue": 8 }]
+			]
+		},
+
+		{
 			"type": "message",
 			"value": [
 				"〇〇",
@@ -75,16 +85,6 @@
 			],
 		
 			"label": { "chapter": 2, "section": 2 }
-		},
-		
-		{
-			"type": "prompt",
-			"value": [
-				["2章へ", { "chapter": 2 }],
-				["3節へ", { "section": 3 }],
-				["2章3節へ", { "chapter": 2, "section": 3 }],
-				["8メッセージ目へ", { "dialogue": 8 }]
-			]
 		}
 	],
 

@@ -1,6 +1,9 @@
 <template>
 	<Epilogy-PromptMessage>
-		<Li v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">{{ item }}</Li>
+		<Li v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">
+			<Span v-if = "!Array.isArray(item)">{{ item }}</Span>
+			<Span v-else>{{ item[0] }}</Span>
+		</Li>
 	</Epilogy-PromptMessage>
 </template>
 

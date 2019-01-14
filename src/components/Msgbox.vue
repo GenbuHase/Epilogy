@@ -35,7 +35,32 @@
 			},
 
 			next () {
-				this.$parent.status.dialogueId++;
+				if (this.dialogue.type === "message") {
+					if (!this.dialogue.label) return this.$parent.status.dialogueId++;
+
+					const { chapter, section, dialogue } = this.dialogue.label;
+
+					this.$parent.status = Object.assign(this.$parent.status, {
+						chapter: chapter || this.$parent.status.chapter,
+						section: section || this.$parent.status.section,
+						dialogueId: dialogue || 1
+					});
+				} else if (this.dialogue.type === "prompt") {
+					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+
+					const currentSelectionDom = document.activeElement;
+					const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
+
+					if (!Array.isArray(currentSelection)) return this.$parent.status.dialogueId++;
+
+					const { chapter, section, dialogue } = currentSelection[1];
+
+					this.$parent.status = Object.assign(this.$parent.status, {
+						chapter: chapter || this.$parent.status.chapter,
+						section: section || this.$parent.status.section,
+						dialogueId: dialogue || 1
+					});
+				}
 			},
 
 			initRender () {
