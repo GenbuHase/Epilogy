@@ -1,5 +1,5 @@
 <template>
-	<Epilogy-SimpleMessage></Epilogy-SimpleMessage>
+	<Epilogy-SimpleMessage>{{ message }}</Epilogy-SimpleMessage>
 </template>
 
 <script>
@@ -8,12 +8,17 @@
 			return {
 				message: ""
 			};
-		},
-
-		methods: {
-			getMessage () {
-				this.message = this.$parent;
-			}
 		}
 	};
 </script>
+
+<style lang="scss" scoped>
+	@import "../../styles/variables";
+
+	#{$prefix} {
+		&-simplemessage {
+			display: block;
+			white-space: pre;
+		}
+	}
+</style>

@@ -1,7 +1,7 @@
 <template>
-	<Epilogy-Msgbox v-html = "Array.isArray(message) ? message.join('<Br />') : message">
-		<SimpleMessage />
-		<PromptMessage />
+	<Epilogy-Msgbox :open = "open && ''">
+		<SimpleMessage ref = "simpleMsg" />
+		<PromptMessage ref = "promptMsg" />
 	</Epilogy-Msgbox>
 </template>
 
@@ -13,19 +13,23 @@
 		components: { SimpleMessage, PromptMessage },
 
 		computed: {
-			message () {
+			dialogue () {
 				const { dialogues } = this.$parent;
 				const { dialogueId } = this.$parent.status;
 
-				return (dialogues && dialogues[dialogueId - 1]) || "";
+				return (dialogues && dialogues[dialogueId - 1]) || null;
+			},
+
+			message () {
+				return this.dialogueToMessage(this.dialogue);
+			},
+
+			open () {
+				return this.dialogue != null;
 			}
 		},
 
 		methods: {
-			dismiss () {
-				this.$el.remove();
-			},
-
 			prev () {
 				this.$parent.status.dialogueId--;
 			},
@@ -33,19 +37,91 @@
 			next () {
 				this.$parent.status.dialogueId++;
 			},
+
+			initRender () {
+				const { simpleMsg, promptMsg } = this.$refs;
+
+				simpleMsg.message = "";
+				promptMsg.items = [];
+			},
+
+			render (dialogue) {
+				const { simpleMsg, promptMsg } = this.$refs;
+
+				const simpleText = [];
+				const promptItems = [];
+
+				this.initRender();
+
+				if (!dialogue) return null;
+				if (typeof dialogue === "string") return dialogue;
+
+				switch (dialogue.type) {
+					case "message":
+						if (!Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value;
+						for (const col of dialogue.value) simpleText.push(this.render(col));
+
+						return simpleMsg.message = simpleText.join("\n");
+						break;
+
+					case "prompt":
+						promptMsg.items = dialogue.value;
+						break;
+				}
+			},
+
+			dialogueToMessage (dialogue) {
+				const formatted = [];
+
+				if (!dialogue) return null;
+				if (typeof dialogue === "string") return dialogue;
+
+				switch (dialogue.type) {
+					case "message":
+						if (!Array.isArray(dialogue.value)) return dialogue.value;
+
+						for (const col of dialogue.value) {
+							formatted.push(this.dialogueToMessage(col));
+						}
+
+						break;
+
+					case "prompt":
+						for (const item of dialogue.value) {
+							if (!Array.isArray(item)) {
+								formatted.push(`▶　${ item }`);
+								continue;
+							}
+
+							const { chapter, section } = item[1];
+							formatted.push(`▶　${ item[0] } → ${ chapter ? `${ chapter }章` : "" }${ section ? `${ section }節` : "" }${ item[1].dialogue ? `${ item[1].dialogue }メッセージ目` : "" }`);
+						}
+
+						break;
+				}
+
+				return formatted.join("\n");
+			},
+
+			handleKeyup (e) {
+				if (e.keyCode === 90) this.next();
+			}
 		},
 
 		created () {
-			window.addEventListener("keydown", e => {
-				if (e.keyCode === 38) this.prev();
-				if (e.keyCode === 40) this.next();
-			});
+			window.addEventListener("keyup", this.handleKeyup);
 		},
 
 		mounted () {
-			this.$parent.status.chapter = 1;
+			this.render(this.dialogue);
+		},
 
-			console.log(this.$parent.dialogues);
+		beforeDestroy () {
+			window.removeEventListener("keyup", this.handleKeyup);
+		},
+
+		updated () {
+			this.render(this.dialogue);
 		}
 	};
 </script>
@@ -69,6 +145,8 @@
 			
 			color: $dialog-text-color;
 
+			transition: opacity 0.1s ease;
+
 			&::after {
 				content: "▼";
 
@@ -76,13 +154,15 @@
 				right: 2vmin;
 				bottom: 2vmin;
 
-				animation: dialog-indicator 0.75s linear infinite alternate;
+				animation: msgbox-indicator 0.75s linear infinite alternate;
 
-				@keyframes dialog-indicator {
+				@keyframes msgbox-indicator {
 					0% { opacity: 0 }
 					100% { opacity: 1 }
 				}
 			}
+
+			&:not([open]) { opacity: 0 }
 		}
 	}
 </style>

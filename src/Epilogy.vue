@@ -25,7 +25,7 @@
 					section: null,
 					dialogueId: null
 				},
-				
+
 				system: {
 					width: window.innerWidth,
 					height: window.innerHeight
@@ -67,8 +67,8 @@
 
 		methods: {
 			handleResize () {
-				this.width = window.innerWidth;
-				this.height = window.innerHeight;
+				this.system.width = window.innerWidth;
+				this.system.height = window.innerHeight;
 			},
 
 			loadConfig () {
@@ -108,6 +108,10 @@
 			window.addEventListener("resize", this.handleResize);
 
 			this.loadConfig();
+
+			this.status.chapter = 1,
+			this.status.section = null,
+			this.status.dialogueId = 1;
 		},
 
 		beforeDestroy () {
