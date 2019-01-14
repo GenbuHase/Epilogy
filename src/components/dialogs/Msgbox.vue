@@ -1,14 +1,12 @@
 <template>
-	<Epilogy-Msgbox>
-		<slot></slot>
-	</Epilogy-Msgbox>
+	<Epilogy-Msgbox v-html = "Array.isArray(message) ? message.join('<Br />') : message"></Epilogy-Msgbox>
 </template>
 
 <script>
 	export default {
 		data () {
 			return {
-
+				message: ""
 			};
 		},
 
@@ -27,7 +25,7 @@
 </script>
 
 <style lang = "scss" scoped>
-	@import "../variables";
+	@import "../../styles/variables";
 
 	#{$prefix} {
 		&-msgbox {

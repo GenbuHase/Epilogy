@@ -26,25 +26,35 @@
 		},
 
 		methods: {
-			show () { this.attrs.open = true },
-			hide () { this.attrs.open = false },
-			toggle () { this.attrs.open = !this.attrs.open }
+			switch () { this.attrs.open = !this.attrs.open },
 		},
 
 		created () {
 			window.addEventListener("keydown", e => {
-				if (e.keyCode === 32) this.toggle();
+				if (e.keyCode === 32) this.switch();
+			});
+
+			window.addEventListener("keydown", e => {
+				switch (e.keyCode) {
+					case 38:
+						break;
+
+					case 40:
+						break;
+				}
 			});
 		}
 	};
 </script>
 
 <style lang = "scss" scoped>
-	@import "../variables";
+	@import "../styles/variables";
 	
 	#{$prefix} {
 		&-menu {
 			position: absolute;
+			left: 0;
+			top: 0;
 
 			display: flex;
 			flex-direction: column;
@@ -86,7 +96,7 @@
 			line-height: 2;
 			text-align: center;
 
-			&:hover {
+			&:focus {
 				&::before {
 					content: "▶";
 					
