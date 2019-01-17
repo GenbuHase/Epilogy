@@ -101,6 +101,7 @@
 	"label": { "chapter": 2, "section": 2 }
 },
 
+/* 省略記法 */
 {
 	"type": "prompt",
 	"value": [
@@ -108,5 +109,16 @@
 		["3節へ", { "section": 3 }],
 		["2章3節へ", { "chapter": 2, "section": 3 }],
 		["8メッセージ目へ", { "dialogue": 8 }]
+	]
+},
+
+/* 非省略記法 */
+{
+	"type": "prompt",
+	"value": [
+		{ "message": "2章へ", "label": { "chapter": 2 } },
+		{ "message": "3節へ", "label": { "section": 3 } },
+		{ "message": "2章3節へ", "label": { "chapter": 2, "section": 3 } },
+		{ "message": "8メッセージ目へ", "label": { "dialogue": 8 } }
 	]
 }
