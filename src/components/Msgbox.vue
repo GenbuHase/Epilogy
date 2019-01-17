@@ -130,7 +130,8 @@
 			right: 0;
 			bottom: 0;
 
-			display: block;
+			display: flex;
+			flex-direction: column;
 			width: 100%;
 			height: 37.5vh;
 			padding: 1em;

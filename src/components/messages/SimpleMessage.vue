@@ -1,5 +1,9 @@
 <template>
-	<Epilogy-SimpleMessage>{{ message }}</Epilogy-SimpleMessage>
+	<Epilogy-SimpleMessage>
+		<Transition-Group>
+			<Span v-for = "(char, index) in message" :key = "index">{{ char }}</Span>
+		</Transition-Group>
+	</Epilogy-SimpleMessage>
 </template>
 
 <script>
@@ -18,7 +22,7 @@
 	#{$prefix} {
 		&-simplemessage {
 			display: block;
-			white-space: pre;
+			white-space: pre-wrap;
 		}
 	}
 </style>

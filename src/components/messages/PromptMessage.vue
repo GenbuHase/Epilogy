@@ -57,6 +57,8 @@
 	#{$prefix} {
 		&-promptmessage {
 			display: block;
+			flex: 1;
+			overflow-y: auto;
 
 			li {
 				list-style: none;
