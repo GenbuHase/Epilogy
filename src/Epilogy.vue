@@ -1,13 +1,15 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<Img :src = "null" />
-		<Msgbox />
+		<Msgbox v-bind.sync = "status" />
 
 		<Menu title = "Main Menu"></Menu>
 	</Epilogy>
 </template>
 
 <script>
+	import Dialogue from "./models/Dialogue.js";
+
 	import Menu from "./components/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
 
@@ -82,25 +84,13 @@
 			},
 
 			loadDialogues (chapter, section) {
-				const dialogues = this.stories[`${ chapter }${ section ? " " + section : "" }`] || [];
+				const dialogues = this.stories[`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
 				return this.formatDialogues(dialogues);
 			},
 
 			formatDialogues (dialogues) {
 				const formattedCollection = [];
-
-				for (const dialogue of dialogues) {
-					if (typeof dialogue === "string" || Array.isArray(dialogue)) {
-						formattedCollection.push({
-							type: "message",
-							value: dialogue
-						});
-
-						continue;
-					}
-					
-					if (dialogue.type) formattedCollection.push(dialogue);
-				}
+				for (const dialogue of dialogues) formattedCollection.push(Dialogue.compile(dialogue));
 
 				return formattedCollection;
 			}

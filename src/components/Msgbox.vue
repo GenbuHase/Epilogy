@@ -6,11 +6,20 @@
 </template>
 
 <script>
+	import Type from "../utils/Type";
+	import Sanitizer from "../utils/Sanitizer";
+
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
 
 	export default {
 		components: { SimpleMessage, PromptMessage },
+
+		props: {
+			chapter: { type: Number },
+			section: { type: Number },
+			dialogueId: { type: Number }
+		},
 
 		computed: {
 			dialogue () {
@@ -20,10 +29,6 @@
 				return (dialogues && dialogues[dialogueId - 1]) || null;
 			},
 
-			message () {
-				return this.dialogueToMessage(this.dialogue);
-			},
-
 			open () {
 				return this.dialogue != null;
 			}
@@ -31,35 +36,33 @@
 
 		methods: {
 			prev () {
-				this.$parent.status.dialogueId--;
+				this.$emit("update:dialogueId", this.dialogueId - 1);
 			},
 
 			next () {
-				if (this.dialogue.type === "message") {
-					if (!this.dialogue.label) return this.$parent.status.dialogueId++;
+				switch (this.dialogue.type) {
+					case "message":
+						if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) return this.$emit("update:dialogueId", this.dialogueId + 1);
 
-					const { chapter, section, dialogue } = this.dialogue.label;
+						return Sanitizer.multipleUpdate.call(this, {
+							chapter: this.dialogue.label.chapter || this.chapter,
+							section: this.dialogue.label.section || this.section,
+							dialogueId: this.dialogue.label.dialogue || 1
+						});
 
-					this.$parent.status = Object.assign(this.$parent.status, {
-						chapter: chapter || this.$parent.status.chapter,
-						section: section || this.$parent.status.section,
-						dialogueId: dialogue || 1
-					});
-				} else if (this.dialogue.type === "prompt") {
-					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+					case "prompt":
+						if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
 
-					const currentSelectionDom = document.activeElement;
-					const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
+						const currentSelectionDom = document.activeElement;
+						const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
 
-					if (!Array.isArray(currentSelection)) return this.$parent.status.dialogueId++;
+						if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) return this.$emit("update:dialogueId", this.dialogueId + 1);
 
-					const { chapter, section, dialogue } = currentSelection[1];
-
-					this.$parent.status = Object.assign(this.$parent.status, {
-						chapter: chapter || this.$parent.status.chapter,
-						section: section || this.$parent.status.section,
-						dialogueId: dialogue || 1
-					});
+						return Sanitizer.multipleUpdate.call(this, {
+							chapter: currentSelection.label.chapter || this.chapter,
+							section: currentSelection.label.section || this.section,
+							dialogueId: currentSelection.label.dialogue || 1
+						});
 				}
 			},
 
@@ -93,39 +96,6 @@
 						promptMsg.items = dialogue.value;
 						break;
 				}
-			},
-
-			dialogueToMessage (dialogue) {
-				const formatted = [];
-
-				if (!dialogue) return null;
-				if (typeof dialogue === "string") return dialogue;
-
-				switch (dialogue.type) {
-					case "message":
-						if (!Array.isArray(dialogue.value)) return dialogue.value;
-
-						for (const col of dialogue.value) {
-							formatted.push(this.dialogueToMessage(col));
-						}
-
-						break;
-
-					case "prompt":
-						for (const item of dialogue.value) {
-							if (!Array.isArray(item)) {
-								formatted.push(`▶　${ item }`);
-								continue;
-							}
-
-							const { chapter, section } = item[1];
-							formatted.push(`▶　${ item[0] } → ${ chapter ? `${ chapter }章` : "" }${ section ? `${ section }節` : "" }${ item[1].dialogue ? `${ item[1].dialogue }メッセージ目` : "" }`);
-						}
-
-						break;
-				}
-
-				return formatted.join("\n");
 			},
 
 			handleKeyup (e) {

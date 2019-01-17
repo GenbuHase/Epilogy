@@ -1,3 +1,5 @@
+import Type from "../utils/Type";
+
 export default class Dialogue {
 	constructor (dialogueObj) {
 		return Dialogue.compile(dialogueObj);
@@ -25,7 +27,9 @@ export default class Dialogue {
 				
 				return {
 					type: "message",
-					value: dialogue.value || ""
+					value: dialogue.value || "",
+
+					label: dialogue.label || {}
 				};
 				
 			case "prompt":
@@ -48,10 +52,10 @@ export default class Dialogue {
 						}
 
 						if (["string", "number"].includes(typeof item[0])) message = item[0];
-						if (item[1] instanceof Object && !Array.isArray(item[1])) label = item[1];
+						if (Type.isObject(item[1])) label = item[1];
 					}
 
-					if (item instanceof Object && !Array.isArray(item)) {
+					if (Type.isObject(item)) {
 						if (item.message) message = item.message;
 						if (item.label) label = item.label;
 					}
@@ -70,7 +74,9 @@ export default class Dialogue {
 			
 			return {
 				type: "message",
-				value: dialogue
+				value: dialogue,
+
+				label: {}
 			};
 		}
 
@@ -82,7 +88,9 @@ export default class Dialogue {
 		
 		return {
 			type: "message",
-			value: compiledCols || ""
+			value: compiledCols || "",
+
+			label: dialogue.label || {}
 		};
 	}
 }
