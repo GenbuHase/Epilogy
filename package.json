@@ -38,6 +38,9 @@
 	},
 	"author": "Genbu Hase (https://genbuhase.github.io/)",
 	"license": "MIT",
+	"vue": {
+		"publicPath": "./"
+	},
 	"eslintConfig": {
 		"root": true,
 		"env": {
