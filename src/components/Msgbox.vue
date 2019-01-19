@@ -8,6 +8,7 @@
 <script>
 	import Type from "../utils/Type";
 	import Sanitizer from "../utils/Sanitizer";
+	import { SEPlayer } from "../libs/AudioPlayer";
 
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
@@ -34,52 +35,11 @@
 		},
 
 		methods: {
-			prev () {
-				this.$emit("update:dialogueId", this.dialogueId - 1);
-			},
-
-			next () {
-				if (this.dialogue.type === "message") {
-					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
-						return this.$emit("update:dialogueId", this.dialogueId + 1);
-					}
-
-					return Sanitizer.multipleUpdate.call(this, {
-						chapter: this.dialogue.label.chapter || this.chapter,
-						section: this.dialogue.label.section || this.section,
-						dialogueId: this.dialogue.label.dialogue || 1
-					});
-				}
-
-				if (this.dialogue.type === "prompt") {
-					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
-
-					const currentSelectionDom = document.activeElement;
-					const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
-
-					if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) {
-						return this.$emit("update:dialogueId", this.dialogueId + 1);
-					}
-
-					return Sanitizer.multipleUpdate.call(this, {
-						chapter: currentSelection.label.chapter || this.chapter,
-						section: currentSelection.label.section || this.section,
-						dialogueId: currentSelection.label.dialogue || 1
-					});
-				}
-			},
-
-			initRender () {
+			render (dialogue) {
 				const { simpleMsg, promptMsg } = this.$refs;
 
 				simpleMsg.message = "";
 				promptMsg.items = [];
-			},
-
-			render (dialogue) {
-				const { simpleMsg, promptMsg } = this.$refs;
-
-				this.initRender();
 
 				if (!dialogue) return null;
 				if (typeof dialogue === "string") return dialogue;
@@ -96,6 +56,44 @@
 					case "prompt":
 						promptMsg.items = dialogue.value;
 						break;
+				}
+			},
+
+			prev () {
+				this.$emit("update:dialogueId", this.dialogueId - 1);
+			},
+
+			next () {
+				this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
+
+				if (!this.dialogue) return;
+
+				if (this.dialogue.type === "message") {
+					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
+						return this.$emit("update:dialogueId", this.dialogueId + 1);
+					}
+
+					return Sanitizer.multipleUpdate.call(this, {
+						chapter: this.dialogue.label.chapter || this.chapter,
+						section: this.dialogue.label.section || this.section,
+						dialogueId: this.dialogue.label.dialogue || 1
+					});
+				}
+
+				if (this.dialogue.type === "prompt") {
+					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+
+					const currentSelection = this.dialogue.value[document.activeElement.tabIndex - 1];
+
+					if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) {
+						return this.$emit("update:dialogueId", this.dialogueId + 1);
+					}
+
+					return Sanitizer.multipleUpdate.call(this, {
+						chapter: currentSelection.label.chapter || this.chapter,
+						section: currentSelection.label.section || this.section,
+						dialogueId: currentSelection.label.dialogue || 1
+					});
 				}
 			},
 

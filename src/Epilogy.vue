@@ -1,14 +1,19 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<Img :src = "null" />
-		<Msgbox v-bind.sync = "status" />
 
-		<!--<Menu title = "Main Menu"></Menu>-->
+		<Msgbox
+			v-bind.sync = "status"
+			@seplayer:play = "onSePlay"
+			@bgmplayer:play = "onBgmPlay" />
+
+		<Menu title = "Main Menu"></Menu>
 	</Epilogy>
 </template>
 
 <script>
 	import Dialogue from "./models/Dialogue.js";
+	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
 
 	import Menu from "./components/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
@@ -30,11 +35,14 @@
 
 				system: {
 					width: window.innerWidth,
-					height: window.innerHeight
+					height: window.innerHeight,
+
+					sePlayer: new SEPlayer(),
+					bgmPlayer: new BGMPlayer()
 				},
 
 				config: {
-					locale: ""
+					locale: "default"
 				}
 			};
 		},
@@ -68,11 +76,6 @@
 		},
 
 		methods: {
-			handleResize () {
-				this.system.width = window.innerWidth;
-				this.system.height = window.innerHeight;
-			},
-
 			loadConfig () {
 				if (!window.localStorage.getItem("epilogy-config")) {
 					window.localStorage.setItem("epilogy-config", JSON.stringify(this.config));
@@ -85,15 +88,28 @@
 
 			loadDialogues (chapter, section) {
 				const dialogues = this.stories[`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
-				return this.formatDialogues(dialogues);
+				return this.compileDialogues(dialogues);
 			},
 
-			formatDialogues (dialogues) {
-				const formattedCollection = [];
-				for (const dialogue of dialogues) formattedCollection.push(Dialogue.compile(dialogue));
+			compileDialogues (dialogues) {
+				const compiledDialogues = [];
+				for (const dialogue of dialogues) compiledDialogues.push(Dialogue.compile(dialogue));
 
-				return formattedCollection;
-			}
+				return compiledDialogues;
+			},
+
+			onSePlay (src) {
+				this.system.sePlayer.play(src);
+			},
+
+			onBgmPlay (src) {
+				this.system.bgmPlayer.play(src);
+			},
+
+			handleResize () {
+				this.system.width = window.innerWidth;
+				this.system.height = window.innerHeight;
+			},
 		},
 
 		created () {
