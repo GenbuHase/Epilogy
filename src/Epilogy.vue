@@ -3,7 +3,7 @@
 		<Img :src = "null" />
 		<Msgbox v-bind.sync = "status" />
 
-		<Menu title = "Main Menu"></Menu>
+		<!--<Menu title = "Main Menu"></Menu>-->
 	</Epilogy>
 </template>
 

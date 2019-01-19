@@ -34,29 +34,6 @@
 			]
 		},
 
-		[
-			"メッセージ + プロンプトです",
-			{
-				"type": "prompt",
-				"value": [
-					"1",
-					"2",
-					"3"
-				]
-			}
-		],
-
-		{
-			"type": "message",
-			"value": [
-				"非省略記法です",
-				{
-					"type": "prompt",
-					"value": ["1"]
-				}
-			]
-		},
-
 		{
 			"type": "message",
 			"value": [

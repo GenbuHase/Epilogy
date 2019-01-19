@@ -33,7 +33,7 @@ export default class Dialogue {
 				};
 				
 			case "prompt":
-				if (!Array.isArray(dialogue.value)) break;
+				if (deeply || !Array.isArray(dialogue.value)) break;
 
 				for (let i = 0; i < dialogue.value.length; i++) {
 					const item = dialogue.value[i];

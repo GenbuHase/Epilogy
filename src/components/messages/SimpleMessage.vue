@@ -1,9 +1,5 @@
 <template>
-	<Epilogy-SimpleMessage>
-		<Transition-Group>
-			<Span v-for = "(char, index) in message" :key = "index">{{ char }}</Span>
-		</Transition-Group>
-	</Epilogy-SimpleMessage>
+	<Epilogy-SimpleMessage>{{ message }}</Epilogy-SimpleMessage>
 </template>
 
 <script>

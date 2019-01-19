@@ -24,9 +24,8 @@
 		computed: {
 			dialogue () {
 				const { dialogues } = this.$parent;
-				const { dialogueId } = this.$parent.status;
 
-				return (dialogues && dialogues[dialogueId - 1]) || null;
+				return (dialogues && dialogues[this.dialogueId - 1]) || null;
 			},
 
 			open () {
@@ -40,29 +39,33 @@
 			},
 
 			next () {
-				switch (this.dialogue.type) {
-					case "message":
-						if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) return this.$emit("update:dialogueId", this.dialogueId + 1);
+				if (this.dialogue.type === "message") {
+					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
+						return this.$emit("update:dialogueId", this.dialogueId + 1);
+					}
 
-						return Sanitizer.multipleUpdate.call(this, {
-							chapter: this.dialogue.label.chapter || this.chapter,
-							section: this.dialogue.label.section || this.section,
-							dialogueId: this.dialogue.label.dialogue || 1
-						});
+					return Sanitizer.multipleUpdate.call(this, {
+						chapter: this.dialogue.label.chapter || this.chapter,
+						section: this.dialogue.label.section || this.section,
+						dialogueId: this.dialogue.label.dialogue || 1
+					});
+				}
 
-					case "prompt":
-						if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+				if (this.dialogue.type === "prompt") {
+					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
 
-						const currentSelectionDom = document.activeElement;
-						const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
+					const currentSelectionDom = document.activeElement;
+					const currentSelection = this.dialogue.value[currentSelectionDom.tabIndex - 1];
 
-						if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) return this.$emit("update:dialogueId", this.dialogueId + 1);
+					if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) {
+						return this.$emit("update:dialogueId", this.dialogueId + 1);
+					}
 
-						return Sanitizer.multipleUpdate.call(this, {
-							chapter: currentSelection.label.chapter || this.chapter,
-							section: currentSelection.label.section || this.section,
-							dialogueId: currentSelection.label.dialogue || 1
-						});
+					return Sanitizer.multipleUpdate.call(this, {
+						chapter: currentSelection.label.chapter || this.chapter,
+						section: currentSelection.label.section || this.section,
+						dialogueId: currentSelection.label.dialogue || 1
+					});
 				}
 			},
 
@@ -76,21 +79,19 @@
 			render (dialogue) {
 				const { simpleMsg, promptMsg } = this.$refs;
 
-				const simpleText = [];
-				const promptItems = [];
-
 				this.initRender();
 
 				if (!dialogue) return null;
 				if (typeof dialogue === "string") return dialogue;
 
+				const messages = [];
+				
 				switch (dialogue.type) {
 					case "message":
 						if (!Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value;
-						for (const col of dialogue.value) simpleText.push(this.render(col));
+						for (const col of dialogue.value) messages.push(this.render(col));
 
-						return simpleMsg.message = simpleText.join("\n");
-						break;
+						return simpleMsg.message = messages.join("\n");
 
 					case "prompt":
 						promptMsg.items = dialogue.value;
@@ -135,6 +136,8 @@
 			width: 100%;
 			height: 37.5vh;
 			padding: 1em;
+
+			overflow-wrap: break-word;
 
 			background: $dialog-background-color;
 			border: 0.75vh ridge $dialog-border-color;
