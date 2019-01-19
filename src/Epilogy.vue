@@ -42,7 +42,8 @@
 				},
 
 				config: {
-					locale: "default"
+					locale: "default",
+					readSpeed: 50
 				}
 			};
 		},

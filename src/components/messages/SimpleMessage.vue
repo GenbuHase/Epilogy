@@ -8,20 +8,36 @@
 	export default {
 		data () {
 			return {
-				message: ""
+				message: "",
+				readQues: []
 			};
 		},
 
-		updated () {
-			this.$nextTick().then(() => {
+		methods: {
+			startReading () {
 				const chars = this.$el.children;
 
-				(function looper (index) {
-					setTimeout(() => {
-						chars[index].setAttribute("read", "");
-						if (index < chars.length - 1) looper(++index);
-					}, 50);
-				})(0);
+				for (const char of chars) char.removeAttribute("read");
+				for (let i = 0; i < chars.length; i++) {
+					this.readQues[i] = setTimeout(() => {
+						this.readQues[i] = null;
+						chars[i].setAttribute("read", "");
+					}, 50 * i);
+				}
+			},
+
+			stopReading () {
+				for (const que of this.readQues) {
+					if (que != null) clearTimeout(que);
+				}
+			}
+		},
+
+		updated () {
+			this.stopReading();
+
+			this.$nextTick().then(() => {
+				this.startReading();
 			});
 		}
 	};
