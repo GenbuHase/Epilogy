@@ -63,9 +63,9 @@
 			},
 
 			next () {
-				this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
-
 				if (!this.dialogue) return;
+
+				this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
 
 				if (this.dialogue.type === "message") {
 					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
