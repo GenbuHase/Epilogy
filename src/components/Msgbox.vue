@@ -8,7 +8,6 @@
 <script>
 	import Type from "../utils/Type";
 	import Sanitizer from "../utils/Sanitizer";
-	import { SEPlayer } from "../libs/AudioPlayer";
 
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
