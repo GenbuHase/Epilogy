@@ -15,7 +15,6 @@ export default class Dialogue {
 	 */
 	static compile (dialogue = {}, deeply) {
 		const compiledCols = [];
-		dialogue
 
 		switch (dialogue.type) {
 			case "message":
@@ -27,7 +26,7 @@ export default class Dialogue {
 				}
 				
 				return {
-					type: "message",
+					type: dialogue.type,
 					value: dialogue.value || "",
 
 					label: dialogue.label || {}
@@ -68,6 +67,39 @@ export default class Dialogue {
 				}
 
 				return dialogue;
+
+			case "fade-in":
+				if (!dialogue.value) break;
+
+				if (Type.isObject(dialogue.value)) {
+					if (!dialogue.value.duration) break;
+
+					return {
+						type: dialogue.type,
+						value: {
+							color: dialogue.value.color || "#000000",
+							duration: dialogue.value.duration
+						}
+					};
+				}
+
+				return {
+					type: dialogue.type,
+					value: {
+						color: "#000000",
+						duration: dialogue.value
+					}
+				};
+
+			case "fade-out":
+				if (typeof dialogue.value === "number") {
+					return {
+						type: dialogue.type,
+						value: dialogue.value
+					};
+				}
+				
+				break;
 		}
 		
 		if (["string", "number"].includes(typeof dialogue)) {

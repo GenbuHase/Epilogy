@@ -78,26 +78,27 @@
 		},
 
 		methods: {
-			render (dialogue) {
+			clear () {
 				const { simpleMsg, promptMsg } = this.$refs;
 
 				simpleMsg.message = "";
 				promptMsg.items = [];
+			},
 
-				if (!dialogue) return null;
-				if (typeof dialogue === "string") return dialogue;
+			render (dialogue) {
+				const { simpleMsg, promptMsg } = this.$refs;
 
-				const messages = [];
-				
+				if (!dialogue) return this.clear();
+
 				switch (dialogue.type) {
-					case "message":
-						if (!Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value;
-						for (const col of dialogue.value) messages.push(this.render(col));
+					default:
+						this.clear();
 
-						return simpleMsg.message = messages.join("\n");
+						if (dialogue.type === "message") return simpleMsg.message = dialogue.value;
+						if (dialogue.type === "prompt") return promptMsg.items = dialogue.value;
 
-					case "prompt":
-						promptMsg.items = dialogue.value;
+					case "fade-in":
+					case "fade-out":
 						break;
 				}
 			},

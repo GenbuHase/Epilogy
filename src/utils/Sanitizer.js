@@ -8,4 +8,17 @@ export default class Sanitizer {
 			this.$emit(`update:${ entry[0] }`, entry[1]);
 		}
 	}
+
+	/**
+	 * @param {String} hexColor
+	 * @return {Array<Number>} RGB-color
+	 */
+	static hexToColor (hexColor) {
+		const hexColors = hexColor.slice(1).split(/.{2}/);
+
+		const decColors = [];
+		for (const hexColor of hexColors) decColors.push(parseInt(hexColor, 16));
+
+		return decColors;
+	}
 }
