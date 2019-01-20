@@ -93,6 +93,7 @@
 				switch (dialogue.type) {
 					default:
 						this.clear();
+						this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
 
 						if (dialogue.type === "message") {
 							if (typeof dialogue.value === "string") return simpleMsg.message = dialogue.value;
@@ -100,13 +101,13 @@
 						}
 
 						if (dialogue.type === "prompt") return promptMsg.items = dialogue.value;
-						
+
 						break;
 
 					case "fade-in":
-						return this.$emit("fade-in:start", dialogue.value.duration, dialogue.value.to);
+						return this.$emit("fade-in:start", dialogue);
 					case "fade-out":
-						return this.$emit("fade-out:start", dialogue.value);
+						return this.$emit("fade-out:start", dialogue);
 				}
 			},
 
@@ -116,8 +117,6 @@
 
 			next () {
 				if (!this.dialogue) return;
-
-				this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
 
 				if (this.dialogue.type === "message") {
 					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {

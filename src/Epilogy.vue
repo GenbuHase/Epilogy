@@ -127,12 +127,12 @@
 				this.system.bgmPlayer.play(src);
 			},
 
-			handleFadeIn (duration, to) {
-				this.$refs.backScreen.startFadeIn(duration, to);
+			handleFadeIn (dialogue) {
+				this.$refs.backScreen.startFadeIn(dialogue);
 			},
 
-			handleFadeOut (duration) {
-				this.$refs.backScreen.startFadeOut(duration);
+			handleFadeOut (dialogue) {
+				this.$refs.backScreen.startFadeOut(dialogue);
 			},
 
 			handleResize () {

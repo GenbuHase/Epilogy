@@ -24,6 +24,9 @@
 </style>
 
 <script>
+	import Type from "../utils/Type";
+	import Sanitizer from "../utils/Sanitizer";
+
 	export default {
 		data () {
 			return {
@@ -46,32 +49,43 @@
 				this.src = src;
 			},
 
-			startFadeIn (duration, to) {
+			startFadeIn (dialogue) {
 				const { styleDom } = this.$refs;
+				const { duration, to } = dialogue.value;
 
-				this.$el.addEventListener("transitionend", this.endFadeIn);
+				this.$el.addEventListener("transitionend", () => this.endFadeIn(dialogue));
 				this.$el.style.transitionDuration = `${duration}ms`;
 				styleDom.innerHTML = `epilogy-backscreen.fade-in { background-color: ${to} }`;
 
 				this.$el.classList.add("fade-in");
 			},
 
-			endFadeIn () {
-				this.$el.removeEventListener("transitionend", this.endFadeIn);
+			endFadeIn (dialogue) {
+				this.$el.removeEventListener("transitionend", () => this.endFadeIn(dialogue));
 				this.$el.style.transitionDuration = "";
 
-				this.$emit("update:dialogueId", this.dialogueId + 1);
+				if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
+					return this.$emit("update:dialogueId", this.dialogueId + 1);
+				}
+
+				return Sanitizer.multipleUpdate.call(this, {
+					chapter: dialogue.label.chapter || this.chapter,
+					section: dialogue.label.section || this.section,
+					dialogueId: dialogue.label.dialogue || 1
+				});
 			},
 
-			startFadeOut (duration) {
-				this.$el.addEventListener("transitionend", this.endFadeOut);
+			startFadeOut (dialogue) {
+				const { duration } = dialogue.value;
+
+				this.$el.addEventListener("transitionend", () => this.endFadeOut(dialogue));
 				this.$el.style.transitionDuration = `${duration}ms`;
 
 				this.$el.classList.remove("fade-in");
 			},
 
-			endFadeOut () {
-				this.$el.removeEventListener("transitionend", this.endFadeOut);
+			endFadeOut (dialogue) {
+				this.$el.removeEventListener("transitionend", () => this.endFadeOut(dialogue));
 
 				const { styleDom } = this.$refs;
 				styleDom.innerHTML = "";
