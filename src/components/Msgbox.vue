@@ -94,7 +94,11 @@
 					default:
 						this.clear();
 
-						if (dialogue.type === "message") return simpleMsg.message = dialogue.value;
+						if (dialogue.type === "message") {
+							if (typeof dialogue.value === "string") return simpleMsg.message = dialogue.value;
+							if (Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value.join("\n");
+						}
+
 						if (dialogue.type === "prompt") return promptMsg.items = dialogue.value;
 
 					case "fade-in":
