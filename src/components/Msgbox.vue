@@ -5,6 +5,50 @@
 	</Epilogy-Msgbox>
 </template>
 
+<style lang = "scss" scoped>
+	@import "../styles/variables";
+
+	#{$prefix} {
+		&-msgbox {
+			/*position: absolute;
+			right: 0;
+			bottom: 0;*/
+
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			height: 37.5vh;
+			padding: 1em;
+
+			overflow-wrap: break-word;
+
+			background: $dialog-background-color;
+			border: 0.75vh ridge $dialog-border-color;
+			
+			color: $dialog-text-color;
+
+			transition: opacity 0.1s ease;
+
+			&::after {
+				content: "▼";
+
+				position: absolute;
+				right: 2vmin;
+				bottom: 2vmin;
+
+				animation: msgbox-indicator 0.75s linear infinite alternate;
+
+				@keyframes msgbox-indicator {
+					0% { opacity: 0 }
+					100% { opacity: 1 }
+				}
+			}
+
+			&:not([open]) { opacity: 0 }
+		}
+	}
+</style>
+
 <script>
 	import Type from "../utils/Type";
 	import Sanitizer from "../utils/Sanitizer";
@@ -118,47 +162,3 @@
 		}
 	};
 </script>
-
-<style lang = "scss" scoped>
-	@import "../styles/variables";
-
-	#{$prefix} {
-		&-msgbox {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 37.5vh;
-			padding: 1em;
-
-			overflow-wrap: break-word;
-
-			background: $dialog-background-color;
-			border: 0.75vh ridge $dialog-border-color;
-			
-			color: $dialog-text-color;
-
-			transition: opacity 0.1s ease;
-
-			&::after {
-				content: "▼";
-
-				position: absolute;
-				right: 2vmin;
-				bottom: 2vmin;
-
-				animation: msgbox-indicator 0.75s linear infinite alternate;
-
-				@keyframes msgbox-indicator {
-					0% { opacity: 0 }
-					100% { opacity: 1 }
-				}
-			}
-
-			&:not([open]) { opacity: 0 }
-		}
-	}
-</style>

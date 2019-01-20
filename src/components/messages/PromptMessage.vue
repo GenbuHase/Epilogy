@@ -6,6 +6,38 @@
 	</Epilogy-PromptMessage>
 </template>
 
+<style lang = "scss" scoped>
+	@import "../../styles/variables";
+
+	#{$prefix} {
+		&-promptmessage {
+			display: block;
+			flex: 1;
+			overflow-y: auto;
+
+			li {
+				list-style: none;
+
+				margin-left: 2em;
+				line-height: 2;
+
+				text-shadow: 2px 2px 2.5px $accent-color;
+
+				&:focus {
+					&::before {
+						content: "▶";
+						
+						display: inline;
+						margin: 0 1em 0 -2em;
+
+						text-shadow: none;
+					}
+				}
+			}
+		}
+	}
+</style>
+
 <script>
 	export default {
 		data () {
@@ -50,35 +82,3 @@
 		}
 	};
 </script>
-
-<style lang="scss" scoped>
-	@import "../../styles/variables";
-
-	#{$prefix} {
-		&-promptmessage {
-			display: block;
-			flex: 1;
-			overflow-y: auto;
-
-			li {
-				list-style: none;
-
-				margin-left: 2em;
-				line-height: 2;
-
-				text-shadow: 2px 2px 2.5px $accent-color;
-
-				&:focus {
-					&::before {
-						content: "▶";
-						
-						display: inline;
-						margin: 0 1em 0 -2em;
-
-						text-shadow: none;
-					}
-				}
-			}
-		}
-	}
-</style>

@@ -4,6 +4,23 @@
 	</Epilogy-SimpleMessage>
 </template>
 
+<style lang = "scss" scoped>
+	@import "../../styles/variables";
+
+	#{$prefix} {
+		&-simplemessage {
+			display: block;
+			white-space: pre-wrap;
+
+			> span {
+				opacity: 0;
+
+				&[read] { opacity: 1 }
+			}
+		}
+	}
+</style>
+
 <script>
 	export default {
 		data () {
@@ -42,20 +59,3 @@
 		}
 	};
 </script>
-
-<style lang="scss" scoped>
-	@import "../../styles/variables";
-
-	#{$prefix} {
-		&-simplemessage {
-			display: block;
-			white-space: pre-wrap;
-
-			> span {
-				opacity: 0;
-
-				&[read] { opacity: 1 }
-			}
-		}
-	}
-</style>

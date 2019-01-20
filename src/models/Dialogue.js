@@ -15,6 +15,7 @@ export default class Dialogue {
 	 */
 	static compile (dialogue = {}, deeply) {
 		const compiledCols = [];
+		dialogue
 
 		switch (dialogue.type) {
 			case "message":
@@ -106,7 +107,48 @@ class DialogueCompileError extends TypeError {
 
 
 /**
- * @typedef {Object} Dialogue
- * @prop {"message" | "prompt"} type
- * @prop {String | Array<String | Dialogue>} value
+ * @typedef {MessageDialogue | PromptDialogue | InputDialogue | FadeInDialogue | FadeOutDialogue} Dialogue
+ */
+
+/**
+ * @typedef {Object} MessageDialogue
+ * @prop {"message"} type
+ * @prop {String | Number | Array<String>} value
+ * @prop {Label} label
+ */
+
+/**
+ * @typedef {Object} PromptDialogue
+ * @prop {"prompt"} type
+ * @prop {Array<{ message: String, label: Label }>} value
+ */
+
+/**
+ * @typedef {Object} InputDialogue
+ * @prop {"input"} type
+ * @prop {{ title: String, label: LabelResults }} value
+ */
+
+/**
+ * @typedef {Object} FadeInDialogue
+ * @prop {"fade-in"} type
+ * @prop {Number | { color: String, duration: Number }} value
+ */
+
+/**
+ * @typedef {Object} FadeOutDialogue
+ * @prop {"fade-out"} type
+ * @prop {Number} value
+ */
+
+/**
+ * @typedef {Object} Label
+ * @prop {Number} [chapter]
+ * @prop {Number} [section]
+ * @prop {Number} [dialogue]
+ */
+
+/**
+ * @typedef {Object<string, Label>} LabelResults
+ * @prop {Label} default
  */

@@ -7,46 +7,6 @@
 	</Epilogy-Menu>
 </template>
 
-<script>
-	export default {
-		props: {
-			title: { type: String, required: false },
-			open: { type: Boolean, required: false }
-		},
-
-		data () {
-			return {
-				attrs: {
-					title: this.title,
-					open: this.open
-				},
-
-				items: []
-			}
-		},
-
-		methods: {
-			switch () { this.attrs.open = !this.attrs.open },
-		},
-
-		created () {
-			window.addEventListener("keydown", e => {
-				if (e.keyCode === 32) this.switch();
-			});
-
-			window.addEventListener("keydown", e => {
-				switch (e.keyCode) {
-					case 38:
-						break;
-
-					case 40:
-						break;
-				}
-			});
-		}
-	};
-</script>
-
 <style lang = "scss" scoped>
 	@import "../styles/variables";
 	
@@ -109,3 +69,43 @@
 		}
 	}
 </style>
+
+<script>
+	export default {
+		props: {
+			title: { type: String, required: false },
+			open: { type: Boolean, required: false }
+		},
+
+		data () {
+			return {
+				attrs: {
+					title: this.title,
+					open: this.open
+				},
+
+				items: []
+			}
+		},
+
+		methods: {
+			switch () { this.attrs.open = !this.attrs.open },
+		},
+
+		created () {
+			window.addEventListener("keydown", e => {
+				if (e.keyCode === 32) this.switch();
+			});
+
+			window.addEventListener("keydown", e => {
+				switch (e.keyCode) {
+					case 38:
+						break;
+
+					case 40:
+						break;
+				}
+			});
+		}
+	};
+</script>

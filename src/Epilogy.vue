@@ -1,6 +1,6 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
-		<Img :src = "null" />
+		<BackScreen :src = "require('./assets/dialog-background.png')" />
 
 		<Msgbox
 			v-bind.sync = "status"
@@ -11,15 +11,30 @@
 	</Epilogy>
 </template>
 
+<style lang = "scss" scoped>
+	@import "./styles/variables";
+
+	#{$prefix} {
+		position: relative;
+
+		display: flex;
+		flex-direction: column;
+		margin: 0 auto;
+
+		background: $base-color;
+	}
+</style>
+
 <script>
 	import Dialogue from "./models/Dialogue.js";
 	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
 
+	import BackScreen from "./components/BackScreen.vue";
 	import Menu from "./components/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
 
 	export default {
-		components: { Menu, Msgbox },
+		components: { BackScreen, Menu, Msgbox },
 
 		data () {
 			return {
@@ -129,7 +144,9 @@
 	};
 </script>
 
-<style lang="scss">
+
+
+<style lang = "scss">
 	* {
 		box-sizing: border-box;
 
@@ -144,21 +161,5 @@
 
 	body {
 		margin: 0;
-	}
-</style>
-
-<style lang="scss" scoped>
-	@import "./styles/variables";
-
-	#{$prefix} {
-		position: relative;
-
-		display: block;
-		margin: 0 auto;
-
-		> img {
-			display: block;
-			flex: 1;
-		}
 	}
 </style>
