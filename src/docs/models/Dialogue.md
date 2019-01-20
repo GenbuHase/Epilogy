@@ -2,7 +2,8 @@
 
 
 ### 概要
-Dialogueオブジェクトは、会話を`Msgbox`が読み取れる形式に変換されたものです。
+Dialogueオブジェクトは、会話を`Msgbox`が読み取れる形式に変換されたものです。<Br />
+時間経過などは、全てミリ秒(ms)単位で取り扱われます。
 
 
 ### オブジェクト構造
@@ -35,7 +36,8 @@ Dialogueオブジェクトは、会話を`Msgbox`が読み取れる形式に変�
 /* type = "fade-in" の場合 */
 {
 	type: "fade-in",
-	value: Number | { color: String, duration: Number }
+	value: Number | { to: String, duration: Number },
+	label: Label
 }
 
 /* type = "fade-out" の場合 */

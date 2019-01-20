@@ -18,7 +18,7 @@
 			background-color: transparent;
 			background-blend-mode: overlay;
 
-			transition: background-color 0s 0s linear;
+			transition: background-color 0ms 0ms linear;
 		}
 	}
 </style>
@@ -34,6 +34,10 @@
 		},
 
 		props: {
+			chapter: { type: Number },
+			section: { type: Number },
+			dialogueId: { type: Number },
+
 			src: { type: String, required: false }
 		},
 
@@ -42,17 +46,37 @@
 				this.src = src;
 			},
 
-			startTransition (duration, to) {
+			startFadeIn (duration, to) {
 				const { styleDom } = this.$refs;
 
-				this.$el.style.transitionDuration = `${duration}s`;
+				this.$el.addEventListener("transitionend", this.endFadeIn);
+				this.$el.style.transitionDuration = `${duration}ms`;
 				styleDom.innerHTML = `epilogy-backscreen.fade-in { background-color: ${to} }`;
 
 				this.$el.classList.add("fade-in");
 			},
 
-			stopTransition () {
+			endFadeIn () {
+				this.$el.removeEventListener("transitionend", this.endFadeIn);
+				this.$el.style.transitionDuration = "";
 
+				this.$emit("update:dialogueId", this.dialogueId + 1);
+			},
+
+			startFadeOut (duration) {
+				this.$el.addEventListener("transitionend", this.endFadeOut);
+				this.$el.style.transitionDuration = `${duration}ms`;
+
+				this.$el.classList.remove("fade-in");
+			},
+
+			endFadeOut () {
+				this.$el.removeEventListener("transitionend", this.endFadeOut);
+
+				const { styleDom } = this.$refs;
+				styleDom.innerHTML = "";
+
+				this.$emit("update:dialogueId", this.dialogueId + 1);
 			}
 		}
 	};

@@ -69,27 +69,33 @@ export default class Dialogue {
 				return dialogue;
 
 			case "fade-in":
-				if (!dialogue.value) break;
-
 				if (Type.isObject(dialogue.value)) {
 					if (!dialogue.value.duration) break;
 
 					return {
 						type: dialogue.type,
 						value: {
-							color: dialogue.value.color || "#000000",
+							to: dialogue.value.to || "#000000",
 							duration: dialogue.value.duration
-						}
+						},
+
+						label: dialogue.label || {}
 					};
 				}
 
-				return {
-					type: dialogue.type,
-					value: {
-						color: "#000000",
-						duration: dialogue.value
-					}
-				};
+				if (typeof dialogue.value === "number") {
+					return {
+						type: dialogue.type,
+						value: {
+							to: "#000000",
+							duration: dialogue.value
+						},
+
+						label: dialogue.label || {}
+					};
+				}
+
+				break;
 
 			case "fade-out":
 				if (typeof dialogue.value === "number") {
@@ -98,7 +104,7 @@ export default class Dialogue {
 						value: dialogue.value
 					};
 				}
-				
+
 				break;
 		}
 		

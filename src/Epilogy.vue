@@ -1,11 +1,16 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
-		<BackScreen :src = "require('./assets/dialog-background.png')" />
+		<BackScreen
+			ref = "backScreen"
+			v-bind.sync = "status"
+			:src = "require('./assets/dialog-background.png')" />
 
 		<Msgbox
 			v-bind.sync = "status"
-			@seplayer:play = "onSePlay"
-			@bgmplayer:play = "onBgmPlay" />
+			@seplayer:play = "handleSePlay"
+			@bgmplayer:play = "handleBgmPlay"
+			@fade-in:start = "handleFadeIn"
+			@fade-out:start = "handleFadeOut" />
 
 		<Menu title = "Main Menu"></Menu>
 	</Epilogy>
@@ -114,12 +119,20 @@
 				return compiledDialogues;
 			},
 
-			onSePlay (src) {
+			handleSePlay (src) {
 				this.system.sePlayer.play(src);
 			},
 
-			onBgmPlay (src) {
+			handleBgmPlay (src) {
 				this.system.bgmPlayer.play(src);
+			},
+
+			handleFadeIn (duration, to) {
+				this.$refs.backScreen.startFadeIn(duration, to);
+			},
+
+			handleFadeOut (duration) {
+				this.$refs.backScreen.startFadeOut(duration);
 			},
 
 			handleResize () {
