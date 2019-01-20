@@ -100,6 +100,8 @@
 						}
 
 						if (dialogue.type === "prompt") return promptMsg.items = dialogue.value;
+						
+						break;
 
 					case "fade-in":
 						return this.$emit("fade-in:start", dialogue.value.duration, dialogue.value.to);
