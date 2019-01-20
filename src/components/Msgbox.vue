@@ -93,7 +93,7 @@
 				switch (dialogue.type) {
 					default:
 						this.clear();
-						this.$emit("seplayer:play", require("../assets/sounds/ok.mp3"));
+						this.$emit("seplayer:play", require("../assets/sounds/read.mp3"));
 
 						if (dialogue.type === "message") {
 							if (typeof dialogue.value === "string") return simpleMsg.message = dialogue.value;
