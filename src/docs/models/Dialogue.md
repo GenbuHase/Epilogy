@@ -13,6 +13,7 @@ Dialogueオブジェクトは、会話を`Msgbox`が読み取れる形式に変�
 	type: "message",
 	value: String | Array<String>,
 	label: Label
+	readSpeed?: Number
 }
 
 /* type = "prompt" の場合 */

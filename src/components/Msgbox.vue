@@ -80,6 +80,7 @@
 				this.$el.scrollTo(0, 0);
 				
 				simpleMsg.message = "";
+				simpleMsg.readSpeed = null;
 				promptMsg.items = [];
 			},
 
@@ -94,6 +95,8 @@
 						this.$emit("seplayer:play", require("../assets/sounds/read.mp3"));
 
 						if (dialogue.type === "message") {
+							simpleMsg.readSpeed = dialogue.readSpeed;
+							
 							if (typeof dialogue.value === "string") return simpleMsg.message = dialogue.value;
 							if (Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value.join("\n");
 						}

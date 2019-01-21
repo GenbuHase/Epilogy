@@ -154,7 +154,7 @@
 			this.loadConfig();
 
 			this.status.chapter = 1,
-			this.status.section = null,
+			this.status.section = 1,
 			this.status.dialogueId = 1;
 		},
 

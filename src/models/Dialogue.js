@@ -29,7 +29,8 @@ export default class Dialogue {
 					type: dialogue.type,
 					value: dialogue.value || "",
 
-					label: dialogue.label || {}
+					label: dialogue.label || {},
+					readSpeed: dialogue.readSpeed || null
 				};
 				
 			case "prompt":
@@ -129,7 +130,8 @@ export default class Dialogue {
 			type: "message",
 			value: compiledCols || "",
 
-			label: dialogue.label || {}
+			label: dialogue.label || {},
+			readSpeed: dialogue.readSpeed || null
 		};
 	}
 }
@@ -153,6 +155,7 @@ class DialogueCompileError extends TypeError {
  * @prop {"message"} type
  * @prop {String | Number | Array<String>} value
  * @prop {Label} label
+ * @prop {Number} [readSpeed]
  */
 
 /**

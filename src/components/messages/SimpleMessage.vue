@@ -26,6 +26,7 @@
 		data () {
 			return {
 				message: "",
+				readSpeed: null,
 
 				hasRead: true,
 				readQues: []
