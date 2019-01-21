@@ -62,16 +62,11 @@
 		props: {
 			chapter: { type: Number },
 			section: { type: Number },
-			dialogueId: { type: Number }
+			dialogueId: { type: Number },
+			dialogue: { type: Object }
 		},
 
 		computed: {
-			dialogue () {
-				const { dialogues } = this.$parent;
-
-				return (dialogues && dialogues[this.dialogueId - 1]) || null;
-			},
-
 			open () {
 				return this.dialogue != null;
 			}
@@ -105,9 +100,9 @@
 						break;
 
 					case "fade-in":
-						return this.$emit("fade-in:start", dialogue);
+						return this.$emit("fade-in:start");
 					case "fade-out":
-						return this.$emit("fade-out:start", dialogue);
+						return this.$emit("fade-out:start");
 				}
 			},
 
@@ -116,9 +111,13 @@
 			},
 
 			next () {
+				const { simpleMsg } = this.$refs;
+
 				if (!this.dialogue) return;
 
 				if (this.dialogue.type === "message") {
+					if (!simpleMsg.hasRead) return simpleMsg.skipReading();
+					
 					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
 						return this.$emit("update:dialogueId", this.dialogueId + 1);
 					}
@@ -148,6 +147,7 @@
 			},
 
 			handleKeyup (e) {
+				if (e.keyCode === 88) this.prev();
 				if (e.keyCode === 90) this.next();
 			}
 		},

@@ -12,9 +12,7 @@
 			"value": {
 				"to": "#000000",
 				"duration": 500
-			},
-
-			"label": { "dialogue": 5 }
+			}
 		},
 
 		{

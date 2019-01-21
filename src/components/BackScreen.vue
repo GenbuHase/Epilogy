@@ -40,8 +40,9 @@
 			chapter: { type: Number },
 			section: { type: Number },
 			dialogueId: { type: Number },
+			dialogue: { type: Object },
 
-			src: { type: String, required: false }
+			src: { type: String }
 		},
 
 		methods: {
@@ -49,20 +50,22 @@
 				this.src = src;
 			},
 
-			startFadeIn (dialogue) {
+			startFadeIn () {
 				const { styleDom } = this.$refs;
-				const { duration, to } = dialogue.value;
+				const { duration, to } = this.dialogue.value;
 
-				this.$el.addEventListener("transitionend", () => this.endFadeIn(dialogue));
+				this.$el.addEventListener("transitionend", this.endFadeIn);
 				this.$el.style.transitionDuration = `${duration}ms`;
 				styleDom.innerHTML = `epilogy-backscreen.fade-in { background-color: ${to} }`;
 
 				this.$el.classList.add("fade-in");
 			},
 
-			endFadeIn (dialogue) {
-				this.$el.removeEventListener("transitionend", () => this.endFadeIn(dialogue));
+			endFadeIn () {
+				this.$el.removeEventListener("transitionend", this.endFadeIn);
 				this.$el.style.transitionDuration = "";
+
+				const { dialogue } = this;
 
 				if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
 					return this.$emit("update:dialogueId", this.dialogueId + 1);
@@ -75,18 +78,18 @@
 				});
 			},
 
-			startFadeOut (dialogue) {
-				const { duration } = dialogue.value;
+			startFadeOut () {
+				const duration = this.dialogue.value;
 
-				this.$el.addEventListener("transitionend", () => this.endFadeOut(dialogue));
+				this.$el.addEventListener("transitionend", this.endFadeOut);
 				this.$el.style.transitionDuration = `${duration}ms`;
 
 				this.$el.classList.remove("fade-in");
 			},
 
-			endFadeOut (dialogue) {
-				this.$el.removeEventListener("transitionend", () => this.endFadeOut(dialogue));
-
+			endFadeOut () {
+				this.$el.removeEventListener("transitionend", this.endFadeOut);
+				
 				const { styleDom } = this.$refs;
 				styleDom.innerHTML = "";
 

@@ -3,10 +3,12 @@
 		<BackScreen
 			ref = "backScreen"
 			v-bind.sync = "status"
+			:dialogue = "dialogue"
 			:src = "require('./assets/dialog-background.png')" />
 
 		<Msgbox
 			v-bind.sync = "status"
+			:dialogue = "dialogue"
 			@seplayer:play = "handleSePlay"
 			@bgmplayer:play = "handleBgmPlay"
 			@fade-in:start = "handleFadeIn"
@@ -83,6 +85,11 @@
 			dialogues () {
 				const { chapter, section } = this.status;
 				return this.loadDialogues(chapter, section);
+			},
+
+			dialogue () {
+				const { dialogues } = this;
+				return (dialogues && dialogues[this.status.dialogueId - 1]) || null;
 			}
 		},
 
@@ -127,12 +134,12 @@
 				this.system.bgmPlayer.play(src);
 			},
 
-			handleFadeIn (dialogue) {
-				this.$refs.backScreen.startFadeIn(dialogue);
+			handleFadeIn () {
+				this.$refs.backScreen.startFadeIn();
 			},
 
-			handleFadeOut (dialogue) {
-				this.$refs.backScreen.startFadeOut(dialogue);
+			handleFadeOut () {
+				this.$refs.backScreen.startFadeOut();
 			},
 
 			handleResize () {
