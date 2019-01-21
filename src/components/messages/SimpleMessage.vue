@@ -50,7 +50,9 @@
 				for (let i = 0; i < chars.length; i++) {
 					this.$set(this.readQues, i, setTimeout(() => {
 						this.$set(this.readQues, i, null);
+
 						chars[i].setAttribute("read", "");
+						chars[i].scrollIntoView({ behavior: "instant", block: "end" });
 					}, 50 * i));
 				}
 			},

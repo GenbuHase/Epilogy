@@ -20,6 +20,7 @@
 			height: 37.5vh;
 			padding: 1em;
 
+			overflow-y: auto;
 			overflow-wrap: break-word;
 
 			background: $dialog-background-color;
@@ -76,6 +77,8 @@
 			clear () {
 				const { simpleMsg, promptMsg } = this.$refs;
 
+				this.$el.scrollTo(0, 0);
+				
 				simpleMsg.message = "";
 				promptMsg.items = [];
 			},
