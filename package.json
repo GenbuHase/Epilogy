@@ -1,68 +1,66 @@
 {
-	"name": "epilogy",
-	"version": "0.0.1",
-	"description": "小説「終学旅行」を基にしたノベルゲーム",
-	"keywords": [
-		"終学旅行",
-		"Epilogy",
-		"novel"
-	],
-	"private": true,
-	"main": "index.js",
-	"scripts": {
-		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint"
-	},
-	"dependencies": {
-		"vue": "^2.5.21"
-	},
-	"devDependencies": {
-		"@vue/cli-plugin-babel": "^3.2.0",
-		"@vue/cli-plugin-eslint": "^3.2.0",
-		"@vue/cli-service": "^3.2.0",
-		"babel-eslint": "^10.0.1",
-		"eslint": "^5.8.0",
-		"eslint-plugin-vue": "^5.0.0",
-		"node-sass": "^4.11.0",
-		"sass-loader": "^7.1.0",
-		"vue-template-compiler": "^2.5.21"
-	},
-	"homepage": "https://github.com/GenbuHase/Epilogy#readme",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/GenbuHase/Epilogy.git"
-	},
-	"bugs": {
-		"url": "https://github.com/GenbuHase/Epilogy/issues"
-	},
-	"author": "Genbu Hase (https://genbuhase.github.io/)",
-	"license": "MIT",
-	"vue": {
-		"publicPath": "./"
-	},
-	"eslintConfig": {
-		"root": true,
-		"env": {
-			"node": true
-		},
-		"extends": [
-			"plugin:vue/essential",
-			"eslint:recommended"
-		],
-		"rules": {},
-		"parserOptions": {
-			"parser": "babel-eslint"
-		}
-	},
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not ie <= 8"
-	]
+  "name": "epilogy",
+  "version": "0.0.1",
+  "private": true,
+  "description": "小説「終学旅行」を基にしたノベルゲーム",
+  "author": "Genbu Hase (https://genbuhase.github.io/)",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^2.5.21",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.2.0",
+    "@vue/cli-plugin-eslint": "^3.2.0",
+    "@vue/cli-service": "^3.2.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "bugs": {
+    "url": "https://github.com/GenbuHase/Epilogy/issues"
+  },
+  "homepage": "https://github.com/GenbuHase/Epilogy#readme",
+  "keywords": [
+    "終学旅行",
+    "Epilogy",
+    "novel"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GenbuHase/Epilogy.git"
+  }
 }

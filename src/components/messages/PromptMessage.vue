@@ -30,6 +30,13 @@
 						margin: 0 1em 0 -2em;
 
 						text-shadow: none;
+
+						animation: prompt-selection 0.6s linear infinite alternate;
+
+						@keyframes prompt-selection {
+							0% { opacity: 0 }
+							100% { opacity: 1 }
+						}
 					}
 				}
 			}

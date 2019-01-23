@@ -33,12 +33,14 @@
 </style>
 
 <script>
-	import Dialogue from "./models/Dialogue.js";
-	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
-
 	import BackScreen from "./components/BackScreen.vue";
 	import Menu from "./components/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
+
+	import Dialogue from "./models/Dialogue";
+	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
+
+	import { updateStoryStatus } from "./stores/actions/Story";
 
 	export default {
 		components: { BackScreen, Menu, Msgbox },
@@ -153,6 +155,13 @@
 
 			this.loadConfig();
 
+			updateStoryStatus(this.$store, {
+				storymode: 1,
+				chapter: 1,
+				section: 1,
+				dialogueId: 1
+			});
+			
 			this.status.chapter = 1,
 			this.status.section = 1,
 			this.status.dialogueId = 1;
