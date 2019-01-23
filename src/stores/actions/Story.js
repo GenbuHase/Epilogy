@@ -39,5 +39,5 @@ export function updateStoryStatus (store, status) {
 	if (storymode) store.commit({ type: STORY_STORYMODE_UPDATE, storymode });
 	if (chapter) store.commit({ type: STORY_CHAPTER_UPDATE, chapter });
 	if (section) store.commit({ type: STORY_SECTION_UPDATE, section });
-	if (dialogueId) store.commit({ type: STORY_DIALOGUEID_UPDATE, dialogueId });
+	store.commit({ type: STORY_DIALOGUEID_UPDATE, dialogueId });
 }
