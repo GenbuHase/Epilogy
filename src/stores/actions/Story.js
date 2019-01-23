@@ -36,8 +36,8 @@ export function updateDialogueId (store, dialogueId) {
 export function updateStoryStatus (store, status) {
 	const { storymode, chapter, section, dialogueId } = status;
 
-	store.commit({ type: STORY_STORYMODE_UPDATE, storymode });
-	store.commit({ type: STORY_CHAPTER_UPDATE, chapter });
-	store.commit({ type: STORY_SECTION_UPDATE, section });
-	store.commit({ type: STORY_DIALOGUEID_UPDATE, dialogueId });
+	if (storymode) store.commit({ type: STORY_STORYMODE_UPDATE, storymode });
+	if (chapter) store.commit({ type: STORY_CHAPTER_UPDATE, chapter });
+	if (section) store.commit({ type: STORY_SECTION_UPDATE, section });
+	if (dialogueId) store.commit({ type: STORY_DIALOGUEID_UPDATE, dialogueId });
 }

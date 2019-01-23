@@ -10,10 +10,6 @@
 
 	#{$prefix} {
 		&-msgbox {
-			/*position: absolute;
-			right: 0;
-			bottom: 0;*/
-
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -51,25 +47,20 @@
 </style>
 
 <script>
-	import Type from "../utils/Type";
-	import Sanitizer from "../utils/Sanitizer";
+	import { updateStoryStatus } from "../stores/actions/Story";
 
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
 
+	import Type from "../utils/Type";
+	import Sanitizer from "../utils/Sanitizer";
+
 	export default {
 		components: { SimpleMessage, PromptMessage },
 
-		props: {
-			chapter: { type: Number },
-			section: { type: Number },
-			dialogueId: { type: Number },
-			dialogue: { type: Object }
-		},
-
 		computed: {
 			open () {
-				return this.dialogue != null;
+				return this.$store.getters.dialogue != null;
 			}
 		},
 
@@ -84,8 +75,9 @@
 				promptMsg.items = [];
 			},
 
-			render (dialogue) {
+			render () {
 				const { simpleMsg, promptMsg } = this.$refs;
+				const { dialogue } = this.$store.getters;
 
 				if (!dialogue) return this.clear();
 
@@ -113,40 +105,41 @@
 			},
 
 			prev () {
-				this.$emit("update:dialogueId", this.dialogueId - 1);
+				updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId - 1 });
 			},
 
 			next () {
 				const { simpleMsg } = this.$refs;
+				const { dialogue } = this.$store.getters;
 
-				if (!this.dialogue) return;
+				if (!dialogue) return;
 
-				if (this.dialogue.type === "message") {
+				if (dialogue.type === "message") {
 					if (!simpleMsg.hasRead) return simpleMsg.skipReading();
 					
-					if (!Type.includeKeys(this.dialogue.label, ["chapter", "section", "dialogue"])) {
-						return this.$emit("update:dialogueId", this.dialogueId + 1);
+					if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
+						return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
 					}
 
-					return Sanitizer.multipleUpdate.call(this, {
-						chapter: this.dialogue.label.chapter || this.chapter,
-						section: this.dialogue.label.section || this.section,
-						dialogueId: this.dialogue.label.dialogue || 1
+					return updateStoryStatus(this.$store, {
+						chapter: dialogue.label.chapter || this.$store.state.Story.chapter,
+						section: dialogue.label.section || this.$store.state.Story.section,
+						dialogueId: dialogue.label.dialogue || 1
 					});
 				}
 
-				if (this.dialogue.type === "prompt") {
+				if (dialogue.type === "prompt") {
 					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
 
-					const currentSelection = this.dialogue.value[document.activeElement.tabIndex - 1];
+					const currentSelection = dialogue.value[document.activeElement.tabIndex - 1];
 
 					if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) {
-						return this.$emit("update:dialogueId", this.dialogueId + 1);
+						return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
 					}
 
-					return Sanitizer.multipleUpdate.call(this, {
-						chapter: currentSelection.label.chapter || this.chapter,
-						section: currentSelection.label.section || this.section,
+					return updateStoryStatus(this.$store, {
+						chapter: currentSelection.label.chapter || this.$store.state.Story.chapter,
+						section: currentSelection.label.section || this.$store.state.Story.section,
 						dialogueId: currentSelection.label.dialogue || 1
 					});
 				}
@@ -163,7 +156,7 @@
 		},
 
 		mounted () {
-			this.render(this.dialogue);
+			this.render();
 		},
 
 		beforeDestroy () {
@@ -171,7 +164,7 @@
 		},
 
 		updated () {
-			this.render(this.dialogue);
+			this.render();
 		}
 	};
 </script>

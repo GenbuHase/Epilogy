@@ -24,8 +24,9 @@
 </style>
 
 <script>
+	import { updateStoryStatus } from "../stores/actions/Story";
+	
 	import Type from "../utils/Type";
-	import Sanitizer from "../utils/Sanitizer";
 
 	export default {
 		data () {
@@ -37,11 +38,6 @@
 		},
 
 		props: {
-			chapter: { type: Number },
-			section: { type: Number },
-			dialogueId: { type: Number },
-			dialogue: { type: Object },
-
 			src: { type: String }
 		},
 
@@ -52,7 +48,7 @@
 
 			startFadeIn () {
 				const { styleDom } = this.$refs;
-				const { duration, to } = this.dialogue.value;
+				const { duration, to } = this.$store.getters.dialogue.value;
 
 				this.$el.addEventListener("transitionend", this.endFadeIn);
 				this.$el.style.transitionDuration = `${duration}ms`;
@@ -65,21 +61,21 @@
 				this.$el.removeEventListener("transitionend", this.endFadeIn);
 				this.$el.style.transitionDuration = "";
 
-				const { dialogue } = this;
+				const { dialogue } = this.$store.getters;
 
 				if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
-					return this.$emit("update:dialogueId", this.dialogueId + 1);
+					return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
 				}
 
-				return Sanitizer.multipleUpdate.call(this, {
-					chapter: dialogue.label.chapter || this.chapter,
-					section: dialogue.label.section || this.section,
+				return updateStoryStatus(this.$store, {
+					chapter: dialogue.label.chapter || this.$store.state.Story.chapter,
+					section: dialogue.label.section || this.$store.state.Story.section,
 					dialogueId: dialogue.label.dialogue || 1
 				});
 			},
 
 			startFadeOut () {
-				const duration = this.dialogue.value;
+				const duration = this.$store.getters.dialogue.value;
 
 				this.$el.addEventListener("transitionend", this.endFadeOut);
 				this.$el.style.transitionDuration = `${duration}ms`;
@@ -93,7 +89,7 @@
 				const { styleDom } = this.$refs;
 				styleDom.innerHTML = "";
 
-				this.$emit("update:dialogueId", this.dialogueId + 1);
+				return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
 			}
 		}
 	};

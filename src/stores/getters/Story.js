@@ -10,6 +10,7 @@ export default {
 		}
 	},
 
+	/** @return {Array<Dialogue>} */
 	dialogues: (state, getters) => {
 		const { chapter, section } = state;
 
@@ -21,8 +22,9 @@ export default {
 		return dialogues;
 	},
 
+	/** @return {Dialogue | null} */
 	dialogue: (state, getters) => {
 		const { dialogues } = getters;
 		return (dialogues && dialogues[state.dialogueId - 1]) || null;
 	}
-}
+};

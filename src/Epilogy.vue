@@ -2,8 +2,6 @@
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<BackScreen
 			ref = "backScreen"
-			v-bind.sync = "status"
-			:dialogue = "dialogue"
 			:src = "require('./assets/dialog-background.png')" />
 
 		<Msgbox
@@ -37,97 +35,35 @@
 	import Menu from "./components/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
 
-	import Dialogue from "./models/Dialogue";
-	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
-
 	import { updateStoryStatus } from "./stores/actions/Story";
+
+	import {
+		loadConfig,
+		updateConfig
+	} from "./stores/actions/Config";
+
+	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
 
 	export default {
 		components: { BackScreen, Menu, Msgbox },
 
 		data () {
 			return {
-				status: {
-					heroName: "",
-					heroineName: "",
-
-					storyMode: 1,
-					chapter: null,
-					section: null,
-					dialogueId: null
-				},
-
 				system: {
 					width: window.innerWidth,
 					height: window.innerHeight,
 
 					sePlayer: new SEPlayer(),
 					bgmPlayer: new BGMPlayer()
-				},
-
-				config: {
-					locale: "default",
-					readSpeed: 50
 				}
 			};
 		},
 
 		computed: {
-			screenSize () { return Math.min(this.system.width, this.system.height) },
-
-			/** @return {Array} */
-			stories () {
-				try {
-					return require(`./stories/story${ this.status.storyMode }.${ this.config.locale }.json`);
-				} catch (error) {
-					return require(`./stories/story${ this.status.storyMode }.default.json`);
-				}
-			},
-
-			dialogues () {
-				const { chapter, section } = this.status;
-				return this.loadDialogues(chapter, section);
-			},
-
-			dialogue () {
-				const { dialogues } = this;
-				return (dialogues && dialogues[this.status.dialogueId - 1]) || null;
-			}
-		},
-
-		watch: {
-			config: {
-				handler (newVal, oldVal) {
-					window.localStorage.setItem("epilogy-config", JSON.stringify(newVal));
-				},
-
-				deep: true
-			}
+			screenSize () { return Math.min(this.system.width, this.system.height) }
 		},
 
 		methods: {
-			loadConfig () {
-				if (!window.localStorage.getItem("epilogy-config")) {
-					window.localStorage.setItem("epilogy-config", JSON.stringify(this.config));
-				}
-
-				try {
-					this.config = JSON.parse(window.localStorage.getItem("epilogy-config"));
-				} catch (error) {}
-			},
-
-			loadDialogues (chapter, section) {
-				const dialogues = this.stories[`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
-				return this.compileDialogues(dialogues);
-			},
-
-			compileDialogues (dialogues) {
-				const compiledDialogues = [];
-				for (const dialogue of dialogues) compiledDialogues.push(Dialogue.compile(dialogue));
-
-				return compiledDialogues;
-			},
-
 			handleSePlay (src) {
 				this.system.sePlayer.play(src);
 			},
@@ -153,7 +89,7 @@
 		created () {
 			window.addEventListener("resize", this.handleResize);
 
-			this.loadConfig();
+			loadConfig(this.$store);
 
 			updateStoryStatus(this.$store, {
 				storymode: 1,
@@ -161,10 +97,6 @@
 				section: 1,
 				dialogueId: 1
 			});
-			
-			this.status.chapter = 1,
-			this.status.section = 1,
-			this.status.dialogueId = 1;
 		},
 
 		beforeDestroy () {
