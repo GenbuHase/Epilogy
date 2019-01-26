@@ -4,9 +4,9 @@ export default {
 	/** @return {Object<string, Array>} */
 	stories: (state, getters, rootState) => {
 		try {
-			return require(`./../../stories/story${ state.storymode }.${ rootState.Config.locale }.json`);
+			return require(`./../../assets/stories/story${ state.storymode }.${ rootState.Config.locale }.json`);
 		} catch (error) {
-			return require(`./../../stories/story${ state.storymode }.default.json`);
+			return require(`./../../assets/stories/story${ state.storymode }.default.json`);
 		}
 	},
 

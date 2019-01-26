@@ -26,18 +26,20 @@
 
 			transition: opacity 0.1s ease;
 
-			&::after {
-				content: "▼";
+			&[read] {
+				&::after {
+					content: "▼";
 
-				position: absolute;
-				right: 2vmin;
-				bottom: 2vmin;
+					position: absolute;
+					right: 2vmin;
+					bottom: 2vmin;
 
-				animation: msgbox-indicator 0.75s linear infinite alternate;
+					animation: msgbox-indicator 0.75s linear infinite alternate;
 
-				@keyframes msgbox-indicator {
-					0% { opacity: 0 }
-					100% { opacity: 1 }
+					@keyframes msgbox-indicator {
+						0% { opacity: 0 }
+						100% { opacity: 1 }
+					}
 				}
 			}
 
@@ -48,6 +50,7 @@
 
 <script>
 	import { updateStoryStatus } from "../stores/actions/Story";
+	import { playSE } from "../stores/actions/Audio";
 
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
@@ -69,6 +72,7 @@
 				const { simpleMsg, promptMsg } = this.$refs;
 
 				this.$el.scrollTo(0, 0);
+				this.$el.removeAttribute("read");
 				
 				simpleMsg.message = "";
 				simpleMsg.readSpeed = null;
@@ -80,11 +84,11 @@
 				const { dialogue } = this.$store.getters;
 
 				if (!dialogue) return this.clear();
+				this.$el.removeAttribute("read");
 
 				switch (dialogue.type) {
 					default:
 						this.clear();
-						this.$emit("seplayer:play", require("../assets/sounds/read.mp3"));
 
 						if (dialogue.type === "message") {
 							simpleMsg.readSpeed = dialogue.readSpeed;
@@ -116,6 +120,8 @@
 
 				if (dialogue.type === "message") {
 					if (!simpleMsg.hasRead) return simpleMsg.skipReading();
+
+					playSE(this.$store, require("../assets/sounds/read.mp3"));
 					
 					if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
 						return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
@@ -130,6 +136,8 @@
 
 				if (dialogue.type === "prompt") {
 					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+
+					playSE(this.$store, require("../assets/sounds/ok.mp3"));
 
 					const currentSelection = dialogue.value[document.activeElement.tabIndex - 1];
 

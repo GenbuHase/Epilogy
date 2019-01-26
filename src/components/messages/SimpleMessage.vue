@@ -53,6 +53,8 @@
 						this.$set(this.readQues, i, null);
 
 						chars[i].setAttribute("read", "");
+						if (i == chars.length - 1) this.$parent.$el.setAttribute("read", "");
+
 						chars[i].scrollIntoView({ behavior: "instant", block: "end" });
 					}, 50 * i));
 				}
@@ -71,6 +73,9 @@
 				}
 
 				this.stopReading();
+				this.$parent.$el.setAttribute("read", "");
+				
+				this.$el.children[this.$el.children.length - 1].scrollIntoView({ behavior: "instant", block: "end" });
 			}
 		},
 

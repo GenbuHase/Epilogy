@@ -45,6 +45,8 @@
 </style>
 
 <script>
+	import { playSE } from "../../stores/actions/Audio";
+
 	export default {
 		data () {
 			return {
@@ -61,12 +63,14 @@
 
 			prev () {
 				if (document.activeElement.previousElementSibling) {
+					playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 					document.activeElement.previousElementSibling.focus();
 				}
 			},
 
 			next () {
 				if (document.activeElement.nextElementSibling) {
+					playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 					document.activeElement.nextElementSibling.focus();
 				}
 			},
@@ -74,8 +78,8 @@
 			handlekeyup (e) {
 				this.initSelection();
 				
-				if (e.keyCode === 38) this.prev();
-				if (e.keyCode === 40) this.next();
+				if (e.keyCode === 38) return this.prev();
+				if (e.keyCode === 40) return this.next();
 			},
 		},
 

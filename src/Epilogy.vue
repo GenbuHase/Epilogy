@@ -5,10 +5,6 @@
 			:src = "require('./assets/dialog-background.png')" />
 
 		<Msgbox
-			v-bind.sync = "status"
-			:dialogue = "dialogue"
-			@seplayer:play = "handleSePlay"
-			@bgmplayer:play = "handleBgmPlay"
 			@fade-in:start = "handleFadeIn"
 			@fade-out:start = "handleFadeOut" />
 
@@ -51,10 +47,7 @@
 			return {
 				system: {
 					width: window.innerWidth,
-					height: window.innerHeight,
-
-					sePlayer: new SEPlayer(),
-					bgmPlayer: new BGMPlayer()
+					height: window.innerHeight
 				}
 			};
 		},
@@ -64,14 +57,6 @@
 		},
 
 		methods: {
-			handleSePlay (src) {
-				this.system.sePlayer.play(src);
-			},
-
-			handleBgmPlay (src) {
-				this.system.bgmPlayer.play(src);
-			},
-
 			handleFadeIn () {
 				this.$refs.backScreen.startFadeIn();
 			},
@@ -108,6 +93,8 @@
 
 
 <style lang = "scss">
+	@import "./styles/variables";
+
 	* {
 		box-sizing: border-box;
 
@@ -122,5 +109,11 @@
 
 	body {
 		margin: 0;
+	}
+
+	#{$prefix} {
+		*::-webkit-scrollbar {
+			display: none;
+		}
 	}
 </style>

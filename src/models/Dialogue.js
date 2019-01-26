@@ -116,7 +116,8 @@ export default class Dialogue {
 				type: "message",
 				value: dialogue,
 
-				label: {}
+				label: {},
+				readSpeed: null
 			};
 		}
 
