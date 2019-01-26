@@ -1,14 +1,12 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
-		<BackScreen
-			ref = "backScreen"
-			:src = "require('./assets/dialog-background.png')" />
+		<BackScreen ref = "backScreen" />
 
 		<Msgbox
 			@fade-in:start = "handleFadeIn"
 			@fade-out:start = "handleFadeOut" />
 
-		<Menu title = "Main Menu"></Menu>
+		<Menu title = "Main Menu" />
 	</Epilogy>
 </template>
 
@@ -27,10 +25,6 @@
 </style>
 
 <script>
-	import BackScreen from "./components/BackScreen.vue";
-	import Menu from "./components/Menu.vue";
-	import Msgbox from "./components/Msgbox.vue";
-
 	import { updateStoryStatus } from "./stores/actions/Story";
 
 	import {
@@ -38,7 +32,9 @@
 		updateConfig
 	} from "./stores/actions/Config";
 
-	import { SEPlayer, BGMPlayer } from "./libs/AudioPlayer";
+	import BackScreen from "./components/BackScreen.vue";
+	import Menu from "./components/Menu.vue";
+	import Msgbox from "./components/Msgbox.vue";
 
 	export default {
 		components: { BackScreen, Menu, Msgbox },

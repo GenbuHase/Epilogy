@@ -25,66 +25,8 @@
 	export default {
 		data () {
 			return {
-				message: "",
-				readSpeed: null,
-
-				hasRead: true,
-				readQues: []
+				message: ""
 			};
-		},
-
-		watch: {
-			readQues: {
-				handler (newValue, oldValue) {
-					this.hasRead = this.readQues.findIndex(que => que != null) === -1 ? true : false;
-				},
-
-				immediate: true
-			}
-		},
-
-		methods: {
-			startReading () {
-				const chars = this.$el.children;
-
-				for (const char of chars) char.removeAttribute("read");
-				for (let i = 0; i < chars.length; i++) {
-					this.$set(this.readQues, i, setTimeout(() => {
-						this.$set(this.readQues, i, null);
-
-						chars[i].setAttribute("read", "");
-						if (i == chars.length - 1) this.$parent.$el.setAttribute("read", "");
-
-						chars[i].scrollIntoView({ behavior: "instant", block: "end" });
-					}, 50 * i));
-				}
-			},
-
-			stopReading () {
-				while (this.readQues.length) {
-					if (this.readQues[0]) clearTimeout(this.readQues[0]);
-					this.$delete(this.readQues, 0);
-				}
-			},
-
-			skipReading () {
-				for (const char of this.$el.children) {
-					char.setAttribute("read", "");
-				}
-
-				this.stopReading();
-				this.$parent.$el.setAttribute("read", "");
-				
-				this.$el.children[this.$el.children.length - 1].scrollIntoView({ behavior: "instant", block: "end" });
-			}
-		},
-
-		updated () {
-			this.stopReading();
-
-			this.$nextTick().then(() => {
-				this.startReading();
-			});
 		}
 	};
 </script>

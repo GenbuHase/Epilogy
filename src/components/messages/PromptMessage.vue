@@ -1,7 +1,7 @@
 <template>
 	<Epilogy-PromptMessage>
 		<Li v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">
-			<Span>{{ item.message }}</Span>
+			<Span v-for = "(char, index) in item.message" :key = "index">{{ char }}</Span>
 		</Li>
 	</Epilogy-PromptMessage>
 </template>
@@ -38,6 +38,12 @@
 							100% { opacity: 1 }
 						}
 					}
+				}
+
+				> span {
+					opacity: 0;
+
+					&[read] { opacity: 1 }
 				}
 			}
 		}
@@ -77,9 +83,13 @@
 
 			handlekeyup (e) {
 				this.initSelection();
-				
-				if (e.keyCode === 38) return this.prev();
-				if (e.keyCode === 40) return this.next();
+
+				switch (e.keyCode) {
+					case 38:
+						return this.prev();
+					case 40:
+						return this.next();
+				}
 			},
 		},
 

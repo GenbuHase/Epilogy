@@ -49,6 +49,8 @@
 </style>
 
 <script>
+	import { mapGetters, mapState } from "vuex";
+
 	import { updateStoryStatus } from "../stores/actions/Story";
 	import { playSE } from "../stores/actions/Audio";
 
@@ -56,60 +58,173 @@
 	import PromptMessage from "./messages/PromptMessage.vue";
 
 	import Type from "../utils/Type";
-	import Sanitizer from "../utils/Sanitizer";
 
 	export default {
 		components: { SimpleMessage, PromptMessage },
 
+		data () {
+			return {
+				hasRead: false,
+				readQues: { simple: [], prompt: [] }
+			};
+		},
+
 		computed: {
+			...mapState({
+				chapter: state => state.Story.chapter,
+				section: state => state.Story.section,
+				dialogueId: state => state.Story.dialogueId,
+			}),
+
+			...mapGetters([
+				"dialogue",
+			]),
+
 			open () {
-				return this.$store.getters.dialogue != null;
+				return this.dialogue != null;
+			}
+		},
+
+		watch: {
+			hasRead (newValue) {
+				switch (newValue) {
+					case true:
+						return this.$el.setAttribute("read", "");
+					case false:
+						return this.$el.removeAttribute("read");
+				}
 			}
 		},
 
 		methods: {
-			clear () {
+			initToRender () {
 				const { simpleMsg, promptMsg } = this.$refs;
 
-				this.$el.scrollTo(0, 0);
-				this.$el.removeAttribute("read");
-				
 				simpleMsg.message = "";
-				simpleMsg.readSpeed = null;
 				promptMsg.items = [];
+
+				this.hasRead = false;
+				this.$el.scrollTo(0, 0);
 			},
 
 			render () {
 				const { simpleMsg, promptMsg } = this.$refs;
-				const { dialogue } = this.$store.getters;
+				const { dialogue } = this;
 
-				if (!dialogue) return this.clear();
-				this.$el.removeAttribute("read");
+				this.initToRender();
+				if (!dialogue) return;
+
+				if (["fade-in", "fade-out"].includes(dialogue.type)) {
+					return this.$emit(`${dialogue.type}:start`);
+				}
 
 				switch (dialogue.type) {
-					default:
-						this.clear();
-
-						if (dialogue.type === "message") {
-							simpleMsg.readSpeed = dialogue.readSpeed;
-							
-							if (typeof dialogue.value === "string") return simpleMsg.message = dialogue.value;
-							if (Array.isArray(dialogue.value)) return simpleMsg.message = dialogue.value.join("\n");
-						}
-
-						if (dialogue.type === "prompt") return promptMsg.items = dialogue.value;
-
+					case "message":
+						if (typeof dialogue.value === "string") simpleMsg.message = dialogue.value;
+						if (Array.isArray(dialogue.value)) simpleMsg.message = dialogue.value.join("\n");
 						break;
 
-					case "fade-in":
-						return this.$emit("fade-in:start");
-					case "fade-out":
-						return this.$emit("fade-out:start");
+					case "prompt":
+						promptMsg.items = dialogue.value;
+						break;
 				}
+
+				this.$nextTick().then(() => this.startToRead());
+			},
+			
+			initToRead () {
+				const { simpleMsg, promptMsg } = this.$refs;
+
+				for (const char of simpleMsg.$el.children) char.removeAttribute("read");
+				for (const item of promptMsg.$el.children) {
+					for (const char of item.children) char.removeAttribute("read");
+				}
+
+				this.hasRead = false;
+				this.$set(this, "readQues", { simple: [], prompt: [] });
+			},
+
+			startToRead () {
+				const { simpleMsg, promptMsg } = this.$refs;
+				const { readSpeed } = this.$store.state.Config;
+
+				this.initToRead();
+
+				new Promise((resolve, reject) => {
+					const chars = simpleMsg.$el.children;
+					if (!chars.length) return resolve();
+
+					for (let i = 0; i < chars.length; i++) {
+						this.$set(this.readQues.simple, i, setTimeout(() => {
+							this.$set(this.readQues.simple, i, null);
+
+							chars[i].setAttribute("read", "");
+							chars[i].scrollIntoView({ behavior: "instant", block: "end" });
+
+							if (i == chars.length - 1) return resolve();
+						}, readSpeed * i));
+					}
+				}).then(() => {
+					const items = Array.prototype.map.call(promptMsg.$el.children, item => item.children);
+					
+					return new Promise((resolve, reject) => {
+						return (function looper (itemId) {
+							const chars = items[itemId];
+							if (!chars) return resolve();
+							
+							for (let i = 0; i < chars.length; i++) {
+								this.$set(this.readQues.prompt, i, setTimeout(() => {
+									this.$set(this.readQues.prompt, i, null);
+
+									chars[i].setAttribute("read", "");
+									chars[i].scrollIntoView({ behavior: "instant", block: "end" });
+
+									if (i == chars.length - 1) looper.call(this, ++itemId);
+								}, readSpeed * i));
+							}
+						}).call(this, 0);
+					});
+				}).then(() => this.afterReading());
+			},
+
+			afterReading () {
+				while (this.readQues.simple.length) {
+					if (this.readQues.simple[0]) clearTimeout(this.readQues.simple[0]);
+					this.$delete(this.readQues.simple, 0);
+				}
+
+				while (this.readQues.prompt.length) {
+					if (this.readQues.prompt[0]) clearTimeout(this.readQues.prompt[0]);
+					this.$delete(this.readQues.prompt, 0);
+				}
+
+				this.hasRead = true;
+			},
+
+			skipReading () {
+				const { simpleMsg, promptMsg } = this.$refs;
+
+				for (let i = 0; i < simpleMsg.$el.children.length; i++) {
+					const char = simpleMsg.$el.children[i];
+					char.setAttribute("read", "");
+
+					if (i === simpleMsg.$el.children.length - 1) char.scrollIntoView({ behavior: "instant", block: "end" });
+				}
+
+				for (const chars of Array.prototype.map.call(promptMsg.$el.children, item => item.children)) {
+					for (let i = 0; i < chars.length; i++) {
+						const char = chars[i];
+						char.setAttribute("read", "");
+
+						if (i === chars.length - 1) char.scrollIntoView({ behavior: "instant", block: "end" });
+					}
+				}
+
+				this.afterReading();
 			},
 
 			prev () {
-				updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId - 1 });
+				updateStoryStatus(this.$store, { dialogueId: this.dialogueId - 1 });
 			},
 
 			next () {
@@ -117,19 +232,18 @@
 				const { dialogue } = this.$store.getters;
 
 				if (!dialogue) return;
+				if (!this.hasRead) return this.skipReading();
 
 				if (dialogue.type === "message") {
-					if (!simpleMsg.hasRead) return simpleMsg.skipReading();
-
 					playSE(this.$store, require("../assets/sounds/read.mp3"));
 					
 					if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
-						return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
+						return updateStoryStatus(this.$store, { dialogueId: this.dialogueId + 1 });
 					}
 
 					return updateStoryStatus(this.$store, {
-						chapter: dialogue.label.chapter || this.$store.state.Story.chapter,
-						section: dialogue.label.section || this.$store.state.Story.section,
+						chapter: dialogue.label.chapter || this.chapter,
+						section: dialogue.label.section || this.section,
 						dialogueId: dialogue.label.dialogue || 1
 					});
 				}
@@ -142,20 +256,24 @@
 					const currentSelection = dialogue.value[document.activeElement.tabIndex - 1];
 
 					if (!Type.includeKeys(currentSelection.label, ["chapter", "section", "dialogue"])) {
-						return updateStoryStatus(this.$store, { dialogueId: this.$store.state.Story.dialogueId + 1 });
+						return updateStoryStatus(this.$store, { dialogueId: this.dialogueId + 1 });
 					}
 
 					return updateStoryStatus(this.$store, {
-						chapter: currentSelection.label.chapter || this.$store.state.Story.chapter,
-						section: currentSelection.label.section || this.$store.state.Story.section,
+						chapter: currentSelection.label.chapter || this.chapter,
+						section: currentSelection.label.section || this.section,
 						dialogueId: currentSelection.label.dialogue || 1
 					});
 				}
 			},
 
 			handleKeyup (e) {
-				if (e.keyCode === 88) this.prev();
-				if (e.keyCode === 90) this.next();
+				switch (e.keyCode) {
+					case 88:
+						return this.prev();
+					case 90:
+						return this.next();
+				}
 			}
 		},
 
