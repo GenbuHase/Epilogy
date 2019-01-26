@@ -26,10 +26,7 @@
 
 <script>
 	import { updateStoryStatus } from "./stores/actions/Story";
-
-	import {
-		loadConfig,
-	} from "./stores/actions/Config";
+	import { loadConfig } from "./stores/actions/Config";
 
 	import BackScreen from "./components/BackScreen.vue";
 	import Menu from "./components/Menu.vue";

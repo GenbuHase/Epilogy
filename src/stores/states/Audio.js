@@ -1,4 +1,4 @@
-import { SEPlayer, BGMPlayer } from "../../libs/AudioPlayer";
+import { SEPlayer, BGMPlayer } from "../../utils/AudioPlayer";
 
 export default {
 	sePlayer: new SEPlayer(),
