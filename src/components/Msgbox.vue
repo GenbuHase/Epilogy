@@ -150,7 +150,7 @@
 
 				this.initToRead();
 
-				new Promise((resolve, reject) => {
+				new Promise(resolve => {
 					const chars = simpleMsg.$el.children;
 					if (!chars.length) return resolve();
 
@@ -167,7 +167,7 @@
 				}).then(() => {
 					const items = Array.prototype.map.call(promptMsg.$el.children, item => item.children);
 					
-					return new Promise((resolve, reject) => {
+					return new Promise(resolve => {
 						return (function looper (itemId) {
 							const chars = items[itemId];
 							if (!chars) return resolve();
@@ -228,10 +228,9 @@
 			},
 
 			next () {
-				const { simpleMsg } = this.$refs;
 				const { dialogue } = this.$store.getters;
 
-				if (!dialogue) return;
+				if (!dialogue || ["fade-in", "fade-out"].includes(dialogue.type)) return;
 				if (!this.hasRead) return this.skipReading();
 
 				if (dialogue.type === "message") {

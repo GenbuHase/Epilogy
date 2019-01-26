@@ -29,7 +29,6 @@
 
 	import {
 		loadConfig,
-		updateConfig
 	} from "./stores/actions/Config";
 
 	import BackScreen from "./components/BackScreen.vue";
