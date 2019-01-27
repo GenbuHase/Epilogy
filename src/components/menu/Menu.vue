@@ -1,5 +1,5 @@
 <template>
-	<Epilogy-Menu :open = "attrs.open && ''">
+	<Epilogy-Menu :open = "isOpened && ''">
 		<Epilogy-Menutitle>{{ attrs.title }}</Epilogy-Menutitle>
 		<Epilogy-Menulist>
 			<Epilogy-Menuitem v-for = "item of items" :key = "item">{{ item }}</Epilogy-Menuitem>
@@ -72,41 +72,51 @@
 </style>
 
 <script>
+	import { mapState } from 'vuex';
+
+	import { toggleIsOpened } from "../../stores/actions/Menu";
+	import { playSE } from "../../stores/actions/Audio";
+
 	export default {
 		props: {
-			title: { type: String, required: false },
-			open: { type: Boolean, required: false }
+			title: { type: String, required: false }
 		},
 
 		data () {
 			return {
 				attrs: {
-					title: this.title,
-					open: this.open
+					title: this.title
 				},
 
 				items: []
 			}
 		},
 
+		computed: {
+			...mapState({
+				isOpened: state => state.Menu.isOpened,
+			})
+		},
+
 		methods: {
-			switch () { this.attrs.open = !this.attrs.open },
+			handleKeyUp (e) {
+				switch (e.keyCode) {
+					case 32:
+						return toggleIsOpened(this.$store);
+					case 38:
+						return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+					case 40:
+						return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+				}
+			}
 		},
 
 		created () {
-			window.addEventListener("keydown", e => {
-				if (e.keyCode === 32) this.switch();
-			});
+			window.addEventListener("keyup", this.handleKeyUp);
+		},
 
-			window.addEventListener("keydown", e => {
-				switch (e.keyCode) {
-					case 38:
-						break;
-
-					case 40:
-						break;
-				}
-			});
+		beforeDestroy () {
+			window.removeEventListener("keyup", this.handleKeyUp);
 		}
 	};
 </script>
