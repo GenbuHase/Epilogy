@@ -90,11 +90,11 @@
 
 		methods: {
 			prev () {
-				return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+				// return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 			},
 
 			next () {
-				return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+				// return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 			},
 
 			handleKeyUp (e) {
