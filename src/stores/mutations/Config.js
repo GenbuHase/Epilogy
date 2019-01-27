@@ -16,11 +16,10 @@ export default {
 	[CONFIG_UPDATE] (state, payload) {
 		if (!Type.isObject(payload.config)) return;
 
-		const { locale, readSpeed } = payload.config;
+		const { locale } = payload.config;
 
 		state = Object.assign(state, {
-			locale: locale || state.locale,
-			readSpeed: readSpeed || state.readSpeed
+			locale: locale || state.locale
 		});
 
 		window.localStorage.setItem("epilogy-config", JSON.stringify(state));

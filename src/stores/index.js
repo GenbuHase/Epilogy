@@ -14,5 +14,15 @@ export default new Vuex.Store({
 		Menu,
 		Config,
 		Audio
+	},
+
+	getters: {
+		locales: (state, getters, rootState) => {
+			try {
+				return require(`../locales/${ rootState.Config.locale }.json`);
+			} catch (error) {
+				return require(`../locales/default.json`);
+			}
+		}
 	}
 });

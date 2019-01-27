@@ -1,14 +1,15 @@
 <template>
 	<Epilogy-Menu :open = "isOpened && ''">
-		<Epilogy-Menutitle>{{ attrs.title }}</Epilogy-Menutitle>
-		<Epilogy-Menulist>
-			<Epilogy-Menuitem v-for = "item of items" :key = "item">{{ item }}</Epilogy-Menuitem>
+		<Epilogy-Menutitle>{{ title }}</Epilogy-Menutitle>
+		<Epilogy-Menulist ref = "items">
+			<Epilogy-Menuitem v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">{{ item }}</Epilogy-Menuitem>
 		</Epilogy-Menulist>
 	</Epilogy-Menu>
 </template>
 
 <style lang = "scss" scoped>
 	@import "../../styles/variables";
+	@import "../../styles/mixins";
 	
 	#{$prefix} {
 		&-menu {
@@ -49,6 +50,8 @@
 		}
 
 		&-menuitem {
+			@include selectable;
+
 			display: list-item;
 			list-style: none;
 
@@ -59,11 +62,6 @@
 
 			&:focus {
 				&::before {
-					content: "▶";
-					
-					display: inline;
-					margin: 0 1em 0 -2em;
-
 					color: $menu-selected-arrow-color;
 				}
 			}
@@ -72,47 +70,52 @@
 </style>
 
 <script>
-	import { mapState } from 'vuex';
+	import { mapState, mapGetters } from "vuex";
 
-	import { toggleIsOpened } from "../../stores/actions/Menu";
+	import { updateMenuState, toggleIsOpened } from "../../stores/actions/Menu";
 	import { playSE } from "../../stores/actions/Audio";
 
 	export default {
-		props: {
-			title: { type: String, required: false }
-		},
-
-		data () {
-			return {
-				attrs: {
-					title: this.title
-				},
-
-				items: []
-			}
-		},
-
 		computed: {
 			...mapState({
+				title: state => state.Menu.title,
+				items: state => state.Menu.items,
 				isOpened: state => state.Menu.isOpened,
-			})
+			}),
+
+			...mapGetters([
+				"locales",
+			])
 		},
 
 		methods: {
+			prev () {
+				return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+			},
+
+			next () {
+				return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+			},
+
 			handleKeyUp (e) {
 				switch (e.keyCode) {
 					case 32:
 						return toggleIsOpened(this.$store);
 					case 38:
-						return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+						return this.prev();
 					case 40:
-						return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
+						return this.next();
 				}
 			}
 		},
 
 		created () {
 			window.addEventListener("keyup", this.handleKeyUp);
+
+			updateMenuState(this.$store, {
+				title: this.locales["menu_top-menu_title"],
+				items: this.locales["menu_top-menu_items"]
+			});
 		},
 
 		beforeDestroy () {

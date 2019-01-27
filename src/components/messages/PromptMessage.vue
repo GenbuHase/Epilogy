@@ -8,6 +8,7 @@
 
 <style lang = "scss" scoped>
 	@import "../../styles/variables";
+	@import "../../styles/mixins";
 
 	#{$prefix} {
 		&-promptmessage {
@@ -15,30 +16,12 @@
 			flex: 1;
 
 			li {
+				@include selectable;
+
 				list-style: none;
 
 				margin-left: 2em;
 				line-height: 2;
-
-				text-shadow: 2px 2px 2.5px $accent-color;
-
-				&:focus {
-					&::before {
-						content: "▶";
-						
-						display: inline;
-						margin: 0 1em 0 -2em;
-
-						text-shadow: none;
-
-						animation: prompt-selection 0.6s linear infinite alternate;
-
-						@keyframes prompt-selection {
-							0% { opacity: 0 }
-							100% { opacity: 1 }
-						}
-					}
-				}
 
 				> span {
 					opacity: 0;

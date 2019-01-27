@@ -168,7 +168,9 @@ class DialogueCompileError extends TypeError {
 /**
  * @typedef {Object} InputDialogue
  * @prop {"input"} type
- * @prop {{ title: String, label: LabelResults }} value
+ * @prop {Object} value
+ * @prop {String} value.title
+ * @prop {LabelResults} value.label
  */
 
 /**

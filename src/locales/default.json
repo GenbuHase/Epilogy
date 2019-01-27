@@ -1,3 +1,14 @@
 {
-	"menu_main-menu": ["", "Load Game", "Config"]
+	"menu_top-menu_title": "終学旅行 ―― Epilogy",
+	"menu_top-menu_items": [
+		"はじめから",
+		"つづきから",
+		"設定"
+	],
+
+	"menu_pause-menu_title": "Menu",
+	"menu_pause-menu_items": [
+		"シナリオ選択",
+		"設定"
+	]
 }

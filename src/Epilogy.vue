@@ -6,7 +6,7 @@
 			@fade-in:start = "handleFadeIn"
 			@fade-out:start = "handleFadeOut" />
 
-		<Menu title = "Main Menu" />
+		<Menu />
 	</Epilogy>
 </template>
 

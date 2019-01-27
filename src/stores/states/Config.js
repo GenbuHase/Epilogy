@@ -1,4 +1,3 @@
 export default {
-	locale: "default",
-	readSpeed: 50
+	locale: "default"
 };

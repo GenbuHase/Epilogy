@@ -60,6 +60,8 @@
 
 	import Type from "../utils/Type";
 
+	const readSpeed = 50;
+
 	export default {
 		components: { SimpleMessage, PromptMessage },
 
@@ -147,8 +149,7 @@
 
 			startToRead () {
 				const { simpleMsg, promptMsg } = this.$refs;
-				const { readSpeed } = this.$store.state.Config;
-
+				
 				this.initToRead();
 
 				new Promise(resolve => {
