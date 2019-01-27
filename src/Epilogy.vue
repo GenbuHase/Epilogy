@@ -25,7 +25,7 @@
 </style>
 
 <script>
-	import { updateStoryStatus } from "./stores/actions/Story";
+	import { updateStoryStatus, updateHeroName, updateHeroineName } from "./stores/actions/Story";
 	import { loadConfig } from "./stores/actions/Config";
 
 	import BackScreen from "./components/BackScreen.vue";
@@ -67,6 +67,9 @@
 			window.addEventListener("resize", this.handleResize);
 
 			loadConfig(this.$store);
+
+			updateHeroName(this.$store, { first: "龍平", last: "小作" });
+			updateHeroineName(this.$store, { first: "柚希", last: "石川" });
 
 			updateStoryStatus(this.$store, {
 				storymode: 1,
