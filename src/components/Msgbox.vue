@@ -13,14 +13,15 @@
 			display: flex;
 			flex-direction: column;
 			width: 100%;
-			height: 37.5vh;
+			height: 37.5vmin;
 			padding: 1em;
 
 			overflow-y: auto;
 			overflow-wrap: break-word;
 
 			background: $dialog-background-color;
-			border: 0.75vh ridge $dialog-border-color;
+			border: 0.75vmin ridge $dialog-border-color;
+			user-select: none;
 			
 			color: $dialog-text-color;
 
@@ -76,9 +77,9 @@
 				dialogueId: state => state.Story.dialogueId,
 			}),
 
-			...mapGetters([
-				"dialogue",
-			]),
+			...mapGetters({
+				dialogue: "Story/dialogue",
+			}),
 
 			open () {
 				return this.dialogue != null;
@@ -228,7 +229,7 @@
 			},
 
 			next () {
-				const { dialogue } = this.$store.getters;
+				const { dialogue } = this;
 
 				if (!dialogue || ["fade-in", "fade-out"].includes(dialogue.type)) return;
 				if (!this.hasRead) return this.skipReading();

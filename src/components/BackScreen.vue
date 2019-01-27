@@ -49,9 +49,9 @@
 				dialogueId: state => state.Story.dialogueId,
 			}),
 
-			...mapGetters([
-				"dialogue",
-			])
+			...mapGetters({
+				dialogue: "Story/dialogue",
+			})
 		},
 
 		methods: {

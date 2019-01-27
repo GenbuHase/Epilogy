@@ -1,7 +1,8 @@
 import Type from "../../utils/Type";
 
-export const CONFIG_LOAD = "CONFIG_LOAD";
-export const CONFIG_UPDATE = "CONFIG_UPDATE";
+export const PREFIX = "Config/";
+export const CONFIG_LOAD = "LOAD";
+export const CONFIG_UPDATE = "UPDATE";
 
 export default {
 	[CONFIG_LOAD] (state) {

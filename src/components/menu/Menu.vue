@@ -8,7 +8,7 @@
 </template>
 
 <style lang = "scss" scoped>
-	@import "../styles/variables";
+	@import "../../styles/variables";
 	
 	#{$prefix} {
 		&-menu {
@@ -22,6 +22,7 @@
 			height: 100%;
 
 			background: $menu-background-color;
+			border: 0.75vmin ridge $menu-border-color;
 			z-index: 1;
 			user-select: none;
 
@@ -31,10 +32,10 @@
 		}
 
 		&-menutitle {
-			margin: 7.5vh 0;
+			margin: 7.5vmin 0;
 
 			color: $menu-title-color;
-			font-size: 5vh;
+			font-size: 5vmin;
 			font-weight: bold;
 			text-align: center;
 		}
@@ -42,7 +43,7 @@
 		&-menulist {
 			display: block;
 			flex: 1;
-			padding: 0 15vh;
+			padding: 0 15vmin;
 
 			overflow: auto;
 		}
@@ -52,7 +53,7 @@
 			list-style: none;
 
 			color: $menu-item-color;
-			font-size: 3.5vh;
+			font-size: 3.5vmin;
 			line-height: 2;
 			text-align: center;
 

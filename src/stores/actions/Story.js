@@ -1,4 +1,5 @@
 import {
+	PREFIX,
 	STORY_STORYMODE_UPDATE,
 	STORY_CHAPTER_UPDATE,
 	STORY_SECTION_UPDATE,
@@ -9,28 +10,28 @@ import {
 
 export function updateStorymode (store, storymode) {
 	store.commit({
-		type: STORY_STORYMODE_UPDATE,
+		type: PREFIX + STORY_STORYMODE_UPDATE,
 		storymode
 	});
 }
 
 export function updateChapter (store, chapter) {
 	store.commit({
-		type: STORY_CHAPTER_UPDATE, 
+		type: PREFIX + STORY_CHAPTER_UPDATE, 
 		chapter
 	});
 }
 
 export function updateSection (store, section) {
 	store.commit({
-		type: STORY_SECTION_UPDATE,
+		type: PREFIX + STORY_SECTION_UPDATE,
 		section
 	});
 }
 
 export function updateDialogueId (store, dialogueId) {
 	store.commit({
-		type: STORY_DIALOGUEID_UPDATE,
+		type: PREFIX + STORY_DIALOGUEID_UPDATE,
 		dialogueId
 	});
 }
@@ -38,20 +39,20 @@ export function updateDialogueId (store, dialogueId) {
 export function updateStoryStatus (store, status) {
 	const { storymode, chapter, section, dialogueId } = status;
 
-	if (storymode) store.commit({ type: STORY_STORYMODE_UPDATE, storymode });
-	if (chapter) store.commit({ type: STORY_CHAPTER_UPDATE, chapter });
-	if (section) store.commit({ type: STORY_SECTION_UPDATE, section });
-	store.commit({ type: STORY_DIALOGUEID_UPDATE, dialogueId });
+	if (storymode) store.commit({ type: PREFIX + STORY_STORYMODE_UPDATE, storymode });
+	if (chapter) store.commit({ type: PREFIX + STORY_CHAPTER_UPDATE, chapter });
+	if (section) store.commit({ type: PREFIX + STORY_SECTION_UPDATE, section });
+	store.commit({ type: PREFIX + STORY_DIALOGUEID_UPDATE, dialogueId });
 }
 
 export function updateHeroName (store, name) {
 	const { first, last } = name;
-	store.commit({ type: STORY_HERONAME_UPDATE, first, last });
+	store.commit({ type: PREFIX + STORY_HERONAME_UPDATE, first, last });
 }
 
 export function updateHeroineName (store, name) {
 	const { first, last } = name;
-	store.commit({ type: STORY_HEROINENAME_UPDATE, first, last });
+	store.commit({ type: PREFIX + STORY_HEROINENAME_UPDATE, first, last });
 }
 
 

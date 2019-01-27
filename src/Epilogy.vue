@@ -29,7 +29,7 @@
 	import { loadConfig } from "./stores/actions/Config";
 
 	import BackScreen from "./components/BackScreen.vue";
-	import Menu from "./components/Menu.vue";
+	import Menu from "./components/menu/Menu.vue";
 	import Msgbox from "./components/Msgbox.vue";
 
 	export default {

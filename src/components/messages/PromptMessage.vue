@@ -82,6 +82,7 @@
 			},
 
 			handlekeyup (e) {
+				if (this.items.length === 0) return;
 				this.initSelection();
 
 				switch (e.keyCode) {
