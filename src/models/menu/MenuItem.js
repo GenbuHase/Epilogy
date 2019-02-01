@@ -8,7 +8,7 @@ export default class MenuItem {
 	/**
 	 * MenuItemオブジェクトに変換します
 	 * 
-	 * @param {Object} itemObj
+	 * @param {MenuItemObject} itemObj
 	 * @return {MenuItemObject}
 	 */
 	static compile (itemObj = {}) {

@@ -5,17 +5,21 @@ export default class MenuPagination {
 		return MenuPagination.compile(paginationObj);
 	}
 
+	
+
+	static get type () { return "pagination" }
+
 	/**
 	 * MenuPaginationオブジェクトに変換します
 	 * 
-	 * @param {Object} paginationObj
+	 * @param {MenuPaginationObject} paginationObj
 	 * @return {MenuPaginationObject}
 	 */
 	static compile (paginationObj = {}) {
 		paginationObj = new MenuItem(paginationObj);
 
 		const { type, value, disabled } = paginationObj;
-		if (type !== "pagination") throw new MenuPaginationCompileError();
+		if (type !== this.type) throw new MenuPaginationCompileError();
 
 		return {
 			type,

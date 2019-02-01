@@ -5,10 +5,14 @@ export default class MenuDivider {
 		return MenuDivider.compile(dividerObj);
 	}
 
+	
+
+	static get type () { return "divider" }
+
 	/**
 	 * MenuDividerオブジェクトに変換します
 	 * 
-	 * @param {Object} dividerObj
+	 * @param {MenuDividerObject} dividerObj
 	 * @return {MenuDividerObject}
 	 */
 	static compile (dividerObj = {}) {

@@ -8,7 +8,7 @@ export default class MenuLayout {
 	/**
 	 * MenuLayoutオブジェクトに変換します
 	 * 
-	 * @param {Object} layoutObj
+	 * @param {MenuLayoutObject} layoutObj
 	 * @return {MenuLayoutObject}
 	 */
 	static compile (layoutObj = {}) {
