@@ -1,6 +1,6 @@
 export default {
 	title: "",
-	items: [],
+	layouts: [],
 	
 	isOpened: false
 };

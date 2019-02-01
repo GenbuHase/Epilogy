@@ -2,7 +2,10 @@
 $prefix: "epilogy";
 $base-color: #000000;
 $base-light-color: #ffffff;
-$accent-color: #f06292;
+$base-accent-color: #f06292;
+
+/* Components Variables */
+$component-border-color: $base-accent-color;
 
 /* Dialog Variables */
 @import "./dialog-variables";

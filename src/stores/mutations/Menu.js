@@ -6,10 +6,10 @@ export default {
 	[MENU_STATE_UPDATE] (state, payload) {
 		if (!payload.state) return;
 
-		const { title, items } = payload.state;
+		const { title, layouts } = payload.state;
 
 		if (title) state.title = title;
-		if (items) state.items = items;
+		if (layouts) state.layouts = layouts;
 	},
 
 	[MENU_ISOPENED_TOGGLE] (state) {

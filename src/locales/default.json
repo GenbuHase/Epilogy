@@ -1,13 +1,13 @@
 {
 	"menu_top-menu_title": "終学旅行 ―― Epilogy",
-	"menu_top-menu_items": [
+	"menu_top-menu_layout": [
 		"はじめから",
 		"つづきから",
 		"設定"
 	],
 
 	"menu_pause-menu_title": "Menu",
-	"menu_pause-menu_items": [
+	"menu_pause-menu_layout": [
 		"シナリオ選択",
 		"設定"
 	]

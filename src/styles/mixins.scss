@@ -1,6 +1,11 @@
 @import "./variables";
 
-@mixin selectable ($shadow-color: $accent-color) {
+/* Commonly Mixins */
+@mixin root-component {
+	border: 0.75vmin ridge $component-border-color;
+}
+
+@mixin selectable ($shadow-color: $base-accent-color) {
 	text-shadow: 2px 2px 2.5px $shadow-color;
 
 	&:focus {
@@ -20,4 +25,14 @@
 			}
 		}
 	}
+}
+
+/* Menu Mixins */
+@mixin menuitem {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 10vmin;
+
+	color: $menuitem-text-color;
 }

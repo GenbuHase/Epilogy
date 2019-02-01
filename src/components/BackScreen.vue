@@ -4,7 +4,7 @@
 	</Epilogy-BackScreen>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "../styles/variables";
 
 	#{$prefix} {

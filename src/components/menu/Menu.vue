@@ -1,13 +1,10 @@
 <template>
 	<Epilogy-Menu :open = "isOpened && ''">
-		<Epilogy-Menutitle>{{ title }}</Epilogy-Menutitle>
-		<Epilogy-Menulist ref = "items">
-			<Epilogy-Menuitem v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">{{ item }}</Epilogy-Menuitem>
-		</Epilogy-Menulist>
+		<MenuPanel v-for = "(layout, index) in layouts" :key = "index" :layout = "layout" />
 	</Epilogy-Menu>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "../../styles/variables";
 	@import "../../styles/mixins";
 	
@@ -23,7 +20,6 @@
 			height: 100%;
 
 			background: $menu-background-color;
-			border: 0.75vmin ridge $menu-border-color;
 			z-index: 1;
 			user-select: none;
 
@@ -35,7 +31,7 @@
 		&-menutitle {
 			margin: 7.5vmin 0;
 
-			color: $menu-title-color;
+			color: $menutitle-text-color;
 			font-size: 5vmin;
 			font-weight: bold;
 			text-align: center;
@@ -55,14 +51,14 @@
 			display: list-item;
 			list-style: none;
 
-			color: $menu-item-color;
+			color: $menuitem-text-color;
 			font-size: 3.5vmin;
 			line-height: 2;
 			text-align: center;
 
 			&:focus {
 				&::before {
-					color: $menu-selected-arrow-color;
+					color: $menuitem-background-color--selected;
 				}
 			}
 		}
@@ -75,11 +71,15 @@
 	import { updateMenuState, toggleIsOpened } from "../../stores/actions/Menu";
 	import { playSE } from "../../stores/actions/Audio";
 
+	import MenuPanel from "./MenuPanel.vue";
+
 	export default {
+		components: { MenuPanel },
+
 		computed: {
 			...mapState({
 				title: state => state.Menu.title,
-				items: state => state.Menu.items,
+				layouts: state => state.Menu.layouts,
 				isOpened: state => state.Menu.isOpened,
 			}),
 
@@ -89,6 +89,11 @@
 		},
 
 		methods: {
+			toggle () {
+				toggleIsOpened(this.$store);
+				return playSE(this.$store, require(`../../assets/sounds/${this.isOpened ? "menu_open" : "menu_close"}.mp3`));
+			},
+
 			prev () {
 				// return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 			},
@@ -100,7 +105,7 @@
 			handleKeyUp (e) {
 				switch (e.keyCode) {
 					case 32:
-						return toggleIsOpened(this.$store);
+						return this.toggle();
 					case 38:
 						return this.prev();
 					case 40:
@@ -114,7 +119,37 @@
 
 			updateMenuState(this.$store, {
 				title: this.locales["menu_top-menu_title"],
-				items: this.locales["menu_top-menu_items"]
+
+				layouts: [
+					{
+						id: "sidebar",
+
+						left: 0,
+						right: 35,
+						top: 0,
+						bottom: 100,
+
+						items: [
+							{
+								type: "pagination",
+								value: {
+									message: "シナリオ選択"
+								}
+							},
+
+							{
+								type: "divider"
+							},
+
+							{
+								type: "pagination",
+								value: {
+									message: "設定"
+								}
+							}
+						]
+					}
+				]
 			});
 		},
 

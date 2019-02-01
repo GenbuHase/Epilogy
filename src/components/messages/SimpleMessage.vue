@@ -1,10 +1,10 @@
 <template>
 	<Epilogy-SimpleMessage>
-		<Span v-for = "(char, index) in message" :key = "index">{{ char }}</Span>
+		<Span v-for = "(char, index) in message" :key = "Date.now() + '' + index">{{ char }}</Span>
 	</Epilogy-SimpleMessage>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "../../styles/variables";
 
 	#{$prefix} {

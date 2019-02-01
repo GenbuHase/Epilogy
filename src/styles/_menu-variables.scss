@@ -1,6 +1,5 @@
 /* Menu Colors */
-$menu-title-color: #e57373;
-$menu-item-color: $accent-color;
-$menu-selected-arrow-color: darken($menu-item-color, 8%);
-$menu-background-color: url("../../assets/dialog-background.png");
-$menu-border-color: $accent-color;
+$menu-background-color: url("../../assets/component-background.png");
+$menutitle-text-color: #e57373;
+$menuitem-text-color: $base-light-color;
+$menuitem-background-color--selected: darken($base-accent-color, 8%);

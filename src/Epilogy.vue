@@ -1,16 +1,15 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
+		<Menu />
 		<BackScreen ref = "backScreen" />
 
 		<Msgbox
 			@fade-in:start = "handleFadeIn"
 			@fade-out:start = "handleFadeOut" />
-
-		<Menu />
 	</Epilogy>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "./styles/variables";
 
 	#{$prefix} {

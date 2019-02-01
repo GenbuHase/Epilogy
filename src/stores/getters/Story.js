@@ -1,5 +1,5 @@
 import { convertVariables } from "../actions/Story";
-import Dialogue from "../../models/Dialogue";
+import Dialogue from "../../models/dialogue/Dialogue";
 
 export default {
 	/** @return {Object<string, Array>} */

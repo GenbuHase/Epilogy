@@ -5,11 +5,14 @@
 	</Epilogy-Msgbox>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "../styles/variables";
+	@import "../styles/mixins";
 
 	#{$prefix} {
 		&-msgbox {
+			@include root-component;
+
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -20,7 +23,6 @@
 			overflow-wrap: break-word;
 
 			background: $dialog-background-color;
-			border: 0.75vmin ridge $dialog-border-color;
 			user-select: none;
 			
 			color: $dialog-text-color;
@@ -138,10 +140,10 @@
 			initToRead () {
 				const { simpleMsg, promptMsg } = this.$refs;
 
-				for (const char of simpleMsg.$el.children) char.removeAttribute("read");
+				/*for (const char of simpleMsg.$el.children) char.removeAttribute("read");
 				for (const item of promptMsg.$el.children) {
 					for (const char of item.children) char.removeAttribute("read");
-				}
+				}*/
 
 				this.hasRead = false;
 				this.$set(this, "readQues", { simple: [], prompt: [] });

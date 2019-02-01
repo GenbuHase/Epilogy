@@ -1,4 +1,4 @@
-import Type from "../utils/Type";
+import Type from "../../utils/Type";
 
 export default class Dialogue {
 	constructor (dialogueObj) {
@@ -8,10 +8,10 @@ export default class Dialogue {
 	/**
 	 * Dialogueオブジェクトに変換します
 	 * 
-	 * @param {String | Number | Array<String | Number> | Dialogue} [dialogue = {}]
+	 * @param {String | Number | Array<String | Number> | DialogueObject} [dialogue = {}]
 	 * @param {Boolean} deeply
 	 * 
-	 * @return {Dialogue}
+	 * @return {DialogueObject}
 	 */
 	static compile (dialogue = {}, deeply) {
 		const compiledCols = [];
@@ -148,7 +148,7 @@ class DialogueCompileError extends TypeError {
 
 
 /**
- * @typedef {MessageDialogue | PromptDialogue | InputDialogue | FadeInDialogue | FadeOutDialogue} Dialogue
+ * @typedef {MessageDialogue | PromptDialogue | InputDialogue | FadeInDialogue | FadeOutDialogue} DialogueObject
  */
 
 /**

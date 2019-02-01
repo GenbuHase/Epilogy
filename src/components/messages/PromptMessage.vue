@@ -1,12 +1,12 @@
 <template>
 	<Epilogy-PromptMessage>
 		<Li v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">
-			<Span v-for = "(char, index) in item.message" :key = "index">{{ char }}</Span>
+			<Span v-for = "(char, index) in item.message" :key = "Date.now() + '' + index">{{ char }}</Span>
 		</Li>
 	</Epilogy-PromptMessage>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 	@import "../../styles/variables";
 	@import "../../styles/mixins";
 

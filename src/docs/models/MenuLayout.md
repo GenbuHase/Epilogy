@@ -16,11 +16,11 @@ export type MenuLayout = {
 	top: Percentage,
 	bottom: Percentage,
 
-	items: Array<MenuItem>,
-	hasBackButton: Boolean
+	items: MenuItems,
+	backTo: MenuID | null
 }
 
-export type MenuItem = MenuPagination;
+export type MenuItems = Array<MenuPagination>;
 
 export type MenuPagination = {
 	type: "pagination",
@@ -37,5 +37,5 @@ export type MenuPagination = {
 export type MenuID = String;
 
 /** 0-100でパーセント指定 */
-export type Percentage = String;
+export type Percentage = Number;
 ```
