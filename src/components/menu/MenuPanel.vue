@@ -1,10 +1,10 @@
 <template>
 	<Epilogy-MenuPanel :style = "panelStyle">
-		<Epilogy-MenuBack v-show = "layout.backTo" />
+		<Epilogy-Menu-BackButton v-show = "layout.backTo" />
 
-		<Epilogy-Menuitems>
+		<Epilogy-Menu-Menuitems>
 			<component v-for = "(item, index) in layout.items" :key = "Date.now() + '' + index" :is = "detectComponent(item)" :value = "item.value" />
-		</Epilogy-Menuitems>
+		</Epilogy-Menu-Menuitems>
 	</Epilogy-MenuPanel>
 </template>
 
@@ -24,7 +24,7 @@
 			max-height: 100%;
 		}
 
-		&-menuback {
+		&-menu-backbutton {
 			@include root-component;
 
 			position: absolute;
@@ -47,7 +47,7 @@
 			}
 		}
 
-		&-menuitems {
+		&-menu-menuitems {
 			display: block;
 			flex: 1;
 

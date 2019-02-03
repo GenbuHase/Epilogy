@@ -1,14 +1,14 @@
 <template>
-	<Epilogy-SimpleMessage>
+	<Epilogy-Msgbox-SimpleMessage>
 		<Span v-for = "(char, index) in message" :key = "Date.now() + '' + index">{{ char }}</Span>
-	</Epilogy-SimpleMessage>
+	</Epilogy-Msgbox-SimpleMessage>
 </template>
 
 <style lang="scss" scoped>
 	@import "../../styles/variables";
 
 	#{$prefix} {
-		&-simplemessage {
+		&-msgbox-simplemessage {
 			display: block;
 			white-space: pre-wrap;
 

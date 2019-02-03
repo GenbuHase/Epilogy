@@ -102,7 +102,7 @@
 				// return playSE(this.$store, require("../../assets/sounds/cursor.mp3"));
 			},
 
-			handleKeyUp (e) {
+			handleKeyup (e) {
 				switch (e.keyCode) {
 					case 32:
 						return this.toggle();
@@ -115,7 +115,7 @@
 		},
 
 		created () {
-			window.addEventListener("keyup", this.handleKeyUp);
+			window.addEventListener("keyup", this.handleKeyup);
 
 			updateMenuState(this.$store, {
 				title: this.locales["menu_top-menu_title"],
@@ -154,7 +154,7 @@
 		},
 
 		beforeDestroy () {
-			window.removeEventListener("keyup", this.handleKeyUp);
+			window.removeEventListener("keyup", this.handleKeyup);
 		}
 	};
 </script>

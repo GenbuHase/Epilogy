@@ -1,9 +1,9 @@
 <template>
-	<Epilogy-PromptMessage>
+	<Epilogy-Msgbox-PromptMessage>
 		<Li v-for = "(item, index) in items" :key = "index" :tabIndex = "index + 1">
 			<Span v-for = "(char, index) in item.message" :key = "Date.now() + '' + index">{{ char }}</Span>
 		</Li>
-	</Epilogy-PromptMessage>
+	</Epilogy-Msgbox-PromptMessage>
 </template>
 
 <style lang="scss" scoped>
@@ -11,7 +11,7 @@
 	@import "../../styles/mixins";
 
 	#{$prefix} {
-		&-promptmessage {
+		&-msgbox-promptmessage {
 			display: block;
 			flex: 1;
 

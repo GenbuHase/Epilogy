@@ -1,5 +1,5 @@
 <template>
-	<Epilogy-MenuDivider />
+	<Epilogy-Menu-Divider />
 </template>
 
 <style lang="scss" scoped>
@@ -7,7 +7,7 @@
 	@import "../../styles/mixins";
 
 	#{$prefix} {
-		&-menudivider {
+		&-menu-divider {
 			@include menuitem;
 			
 			display: block;

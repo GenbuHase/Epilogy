@@ -1,5 +1,5 @@
 <template>
-	<Epilogy-MenuPagination>{{ value.message }}</Epilogy-MenuPagination>
+	<Epilogy-Menu-Pagination>{{ value.message }}</Epilogy-Menu-Pagination>
 </template>
 
 <style lang="scss" scoped>
@@ -7,7 +7,7 @@
 	@import "../../styles/mixins";
 
 	#{$prefix} {
-		&-menupagination {
+		&-menu-pagination {
 			@include menuitem;
 			
 			&:hover {
