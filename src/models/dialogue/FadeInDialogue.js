@@ -1,5 +1,5 @@
-import { DialogueCompileError, Label } from "./Dialogue";
 import Type from "../../utils/Type";
+import { DialogueCompileError, Label } from "./Dialogue";
 
 export default class FadeInDialogue {
 	/** @param {FadeInCandidate} dialogueObj */

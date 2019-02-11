@@ -33,7 +33,8 @@
 		"top": 0, "bottom": 70,
 
 		"items": [
-			
+			"MenuText",
+			["MenuPagination", "config"]
 		]
 	}
 ]

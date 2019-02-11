@@ -1,4 +1,5 @@
-import MenuItem from "./MenuItem";
+import Type from "../../utils/Type";
+import { MenuItemCompileError } from "./MenuItem";
 
 export default class MenuDivider {
 	constructor (dividerObj) {
@@ -16,26 +17,13 @@ export default class MenuDivider {
 	 * @return {MenuDividerObject}
 	 */
 	static compile (dividerObj = {}) {
-		dividerObj = new MenuItem(dividerObj);
-
-		const { type, disabled } = dividerObj;
-		if (type !== "divider") throw new MenuDividerCompileError();
+		if (!Type.isObject(dividerObj) || dividerObj.type !== this.type) throw new MenuItemCompileError();
 
 		return {
-			type,
-			value: null,
-
-			disabled
-		};
+			type: this.type,
+			value: null
+		}
 	}
-}
-
-class MenuDividerCompileError extends TypeError {
-	constructor () {
-		super("The format of provided object doesn't match that of MenuDivider");
-	}
-
-	get name () { return "MenuDividerCompileError" }
 }
 
 
@@ -44,5 +32,4 @@ class MenuDividerCompileError extends TypeError {
  * @typedef {Object} MenuDividerObject
  * @prop {"divider"} type
  * @prop {null} value
- * @prop {Boolean} disabled
  */

@@ -1,7 +1,8 @@
 import Type from "../../utils/Type";
-import { MenuTextObject } from "./MenuText"
-import { MenuPaginationObject } from "./MenuPagination";
-import { MenuDividerObject } from "./MenuDivider";
+
+import MenuText, { MenuTextObject } from "./MenuText"
+import MenuPagination, { MenuPaginationObject } from "./MenuPagination";
+import MenuDivider, { MenuDividerObject } from "./MenuDivider";
 
 export default class MenuItem {
 	constructor (itemObj) {
@@ -11,25 +12,29 @@ export default class MenuItem {
 	/**
 	 * MenuItemオブジェクトに変換します
 	 * 
-	 * @param {MenuItemObject} itemObj
+	 * @param {String | Number | [String | Number, String] | MenuItemObject} itemObj
 	 * @return {MenuItemObject}
 	 */
 	static compile (itemObj = {}) {
-		if (!Type.isObject(itemObj)) throw new MenuItemCompileError();
+		if (!Type.isObject(itemObj)) {
+			if (typeof itemObj === "string" || typeof itemObj === "number") return new MenuText(itemObj);
+			if (Array.isArray(itemObj)) return new MenuPagination(itemObj);
+		}
 
-		const { type, value, disabled } = itemObj;
-		if (!type) throw new MenuItemCompileError();
-
-		return {
-			type,
-			value: value || null,
-
-			disabled: disabled || false
-		};
+		switch (itemObj.type) {
+			default:
+				throw new MenuItemCompileError();
+			case MenuText.type:
+				return new MenuText(itemObj);
+			case MenuPagination.type:
+				return new MenuPagination(itemObj);
+			case MenuDivider.type:
+				return new MenuDivider(itemObj);
+		}
 	}
 }
 
-class MenuItemCompileError extends TypeError {
+export class MenuItemCompileError extends TypeError {
 	constructor () {
 		super("The format of provided object doesn't match that of MenuItem");
 	}
@@ -40,12 +45,9 @@ class MenuItemCompileError extends TypeError {
 
 
 /**
- * @typedef {Object} MenuItemObject
- * @prop {String} type
- * @prop {Object | null} value
- * @prop {Boolean} disabled
+ * @typedef {MenuTextObject | MenuPaginationObject | MenuDividerObject} MenuItemObject
  */
 
 /**
- * @typedef {Array<MenuTextObject | MenuPaginationObject | MenuDividerObject>} MenuItems
+ * @typedef {Array<MenuItemObject>} MenuItems
  */

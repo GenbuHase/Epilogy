@@ -1,9 +1,9 @@
+import Type from "../../utils/Type";
+
 import MessageDialogue, { MessageDialogueObject } from "./MessageDialogue";
 import PromptDialogue, { PromptDialogueObject } from "./PromptDialogue";
 import FadeInDialogue, { FadeInDialogueObject } from "./FadeInDialogue";
 import FadeOutDialogue, { FadeOutDialogueObject } from "./FadeOutDialogue";
-
-import Type from "../../utils/Type";
 
 export default class Dialogue {
 	constructor (dialogueObj) {
@@ -20,6 +20,8 @@ export default class Dialogue {
 		if (!Type.isObject(dialogueObj)) return new MessageDialogue(dialogueObj);
 
 		switch (dialogueObj.type) {
+			default:
+				throw new DialogueCompileError();
 			case MessageDialogue.type:
 				return new MessageDialogue(dialogueObj);
 			case PromptDialogue.type:

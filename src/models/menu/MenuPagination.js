@@ -1,4 +1,5 @@
-import MenuItem from "./MenuItem";
+import Type from "../../utils/Type";
+import { MenuItemCompileError } from "./MenuItem";
 
 export default class MenuPagination {
 	constructor (paginationObj) {
@@ -17,40 +18,31 @@ export default class MenuPagination {
 	 */
 	static compile (paginationObj = {}) {
 		if (Array.isArray(paginationObj)) {
-			if (paginationObj.length < 2) throw new MenuPaginationCompileError();
+			if (paginationObj.length < 2) throw new MenuItemCompileError();
 
 			return {
 				type: this.type,
 				value: {
 					message: paginationObj[0],
 					to: paginationObj[1]
-				}
+				},
+
+				disabled: false
 			}
 		}
 
-		paginationObj = new MenuItem(paginationObj);
-
-		const { type, value, disabled } = paginationObj;
-		if (type !== this.type) throw new MenuPaginationCompileError();
+		if (!Type.isObject(paginationObj) || paginationObj.type !== this.type) throw new MenuItemCompileError();
 
 		return {
-			type,
+			type: this.type,
 			value: {
-				message: value.message || "",
-				to: value.to || null
+				message: paginationObj.value.message || "",
+				to: paginationObj.value.to || null
 			},
 
-			disabled
+			disabled: paginationObj.disabled || false
 		}
 	}
-}
-
-class MenuPaginationCompileError extends TypeError {
-	constructor () {
-		super("The format of provided object doesn't match that of MenuPagination");
-	}
-
-	get name () { return "MenuPaginationCompileError" }
 }
 
 

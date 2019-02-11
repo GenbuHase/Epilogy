@@ -1,4 +1,5 @@
-import MenuItem from "./MenuItem";
+import Type from "../../utils/Type";
+import { MenuItemCompileError } from "./MenuItem";
 
 export default class MenuText {
 	constructor (textObj) {
@@ -23,24 +24,13 @@ export default class MenuText {
 			}
 		}
 
-		textObj = new MenuItem(textObj);
-
-		const { type, value } = textObj;
-		if (type !== this.type) throw new MenuTextCompileError();
+		if (!Type.isObject(textObj) || textObj.type !== this.type) throw new MenuItemCompileError();
 
 		return {
-			type,
-			value
+			type: this.type,
+			value: textObj.value
 		}
 	}
-}
-
-class MenuTextCompileError extends TypeError {
-	constructor () {
-		super("The format of provided object doesn't match that of MenuText");
-	}
-
-	get name () { return "MenuTextCompileError" }
 }
 
 
