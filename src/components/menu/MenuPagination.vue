@@ -1,5 +1,5 @@
 <template>
-	<Epilogy-Menu-Pagination>{{ value.message }}</Epilogy-Menu-Pagination>
+	<Epilogy-Menu-Pagination @click = "handleClick">{{ value.message }}</Epilogy-Menu-Pagination>
 </template>
 
 <style lang="scss" scoped>
@@ -21,6 +21,13 @@
 	import { MenuItemMixin } from "./utils/mixins";
 
 	export default {
-		mixins: [MenuItemMixin]
+		mixins: [MenuItemMixin],
+
+		methods: {
+			handleClick (e) {
+				const { value, disabled } = this;
+				if (disabled || !value.to) return;
+			}
+		}
 	};
 </script>

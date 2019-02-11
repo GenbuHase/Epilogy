@@ -12,10 +12,22 @@ export default class MenuPagination {
 	/**
 	 * MenuPaginationオブジェクトに変換します
 	 * 
-	 * @param {MenuPaginationObject} paginationObj
+	 * @param {MenuPaginationCandidate} paginationObj
 	 * @return {MenuPaginationObject}
 	 */
 	static compile (paginationObj = {}) {
+		if (Array.isArray(paginationObj)) {
+			if (paginationObj.length < 2) throw new MenuPaginationCompileError();
+
+			return {
+				type: this.type,
+				value: {
+					message: paginationObj[0],
+					to: paginationObj[1]
+				}
+			}
+		}
+
 		paginationObj = new MenuItem(paginationObj);
 
 		const { type, value, disabled } = paginationObj;
@@ -29,7 +41,7 @@ export default class MenuPagination {
 			},
 
 			disabled
-		};
+		}
 	}
 }
 
@@ -50,4 +62,8 @@ class MenuPaginationCompileError extends TypeError {
  * @prop {String} value.message
  * @prop {String | null} value.to
  * @prop {Boolean} disabled
+ */
+
+/**
+ * @typedef {[ String | Number, String ] | MenuPaginationObject} MenuPaginationCandidate
  */

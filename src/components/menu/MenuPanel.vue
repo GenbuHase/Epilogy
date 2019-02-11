@@ -1,11 +1,11 @@
 <template>
-	<Epilogy-MenuPanel :style = "panelStyle">
+	<Epilogy-Menu-Panel :style = "panelStyle">
 		<Epilogy-Menu-BackButton v-show = "layout.backTo" />
 
 		<Epilogy-Menu-Menuitems>
-			<component v-for = "(item, index) in layout.items" :key = "Date.now() + '' + index" :is = "detectComponent(item)" :value = "item.value" />
+			<component v-for = "(item, index) in layout.items" :key = "Date.now() + '' + index" :is = "detectComponent(item)" :value = "item.value" :disabled = "item.disabled" />
 		</Epilogy-Menu-Menuitems>
-	</Epilogy-MenuPanel>
+	</Epilogy-Menu-Panel>
 </template>
 
 <style lang="scss" scoped>
@@ -13,7 +13,7 @@
 	@import "../../styles/mixins";
 
 	#{$prefix} {
-		&-menupanel {
+		&-menu-panel {
 			@include root-component;
 
 			position: absolute;
@@ -57,8 +57,9 @@
 </style>
 
 <script>
+	import MenuText from "./MenuText.vue";
 	import MenuPagination from "./MenuPagination.vue";
-	import MenuDivider from './MenuDivider.vue';
+	import MenuDivider from "./MenuDivider.vue";
 
 	export default {
 		props: {
@@ -83,10 +84,9 @@
 				const { type, value } = itemObj;
 
 				switch (type) {
-					case "pagination":
-						return MenuPagination;
-					case "divider":
-						return MenuDivider;
+					case "text": return MenuText;
+					case "pagination": return MenuPagination;
+					case "divider": return MenuDivider;
 				}
 			}
 		},

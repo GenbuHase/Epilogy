@@ -1,4 +1,5 @@
 import Type from "../../utils/Type";
+import { MenuItems } from "./MenuItem";
 
 export default class MenuLayout {
 	constructor (layoutObj) {
@@ -52,6 +53,6 @@ class MenuLayoutCompileError extends TypeError {
  * @prop {Number} right
  * @prop {Number} top
  * @prop {Number} bottom
- * @prop {import("./MenuItem").MenuItems} items
+ * @prop {MenuItems} items
  * @prop {String | null} backTo
  */

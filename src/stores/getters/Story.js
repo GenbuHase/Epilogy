@@ -1,18 +1,9 @@
 import { convertVariables } from "../actions/Story";
-import Dialogue from "../../models/dialogue/Dialogue";
+import Dialogue, { DialogueObject } from "../../models/dialogue/Dialogue";
 
 export default {
-	/** @return {Object<string, Array>} */
-	stories: (state, getters, rootState) => {
-		try {
-			return require(`../../assets/stories/story${ state.storymode }.${ rootState.Config.locale }.json`);
-		} catch (error) {
-			return require(`../../assets/stories/story${ state.storymode }.default.json`);
-		}
-	},
-
-	/** @return {Array<Dialogue>} */
-	dialogues: (state, getters) => {
+	/** @return {Array<DialogueObject>} */
+	dialogues: (state, getters, rootState, rootGetters) => {
 		const { chapter, section } = state;
 		const variablesRoot = {
 			"heroName": getters.heroName,
@@ -26,7 +17,7 @@ export default {
 
 		const dialogues = [];
 
-		const pureDialogues = getters.stories[`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
+		const pureDialogues = rootGetters["Loader/stories"][`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
 		for (const dialogue of pureDialogues) {
 			const compiled = Dialogue.compile(dialogue);
 			
@@ -51,7 +42,7 @@ export default {
 		return dialogues;
 	},
 
-	/** @return {Dialogue | null} */
+	/** @return {DialogueObject | null} */
 	dialogue: (state, getters) => {
 		const { dialogues } = getters;
 		return (dialogues && dialogues[state.dialogueId - 1]) || null;

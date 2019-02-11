@@ -1,4 +1,7 @@
 import Type from "../../utils/Type";
+import { MenuTextObject } from "./MenuText"
+import { MenuPaginationObject } from "./MenuPagination";
+import { MenuDividerObject } from "./MenuDivider";
 
 export default class MenuItem {
 	constructor (itemObj) {
@@ -44,5 +47,5 @@ class MenuItemCompileError extends TypeError {
  */
 
 /**
- * @typedef {Array<import("./MenuPagination").MenuPaginationObject>} MenuItems
+ * @typedef {Array<MenuTextObject | MenuPaginationObject | MenuDividerObject>} MenuItems
  */

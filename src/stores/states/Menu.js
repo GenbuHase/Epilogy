@@ -1,6 +1,4 @@
 export default {
-	title: "",
-	layouts: [],
-	
+	layoutIds: [],
 	isOpened: false
 };

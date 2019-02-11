@@ -27,48 +27,13 @@
 
 			&:not([open]) { opacity: 0 }
 		}
-
-		&-menutitle {
-			margin: 7.5vmin 0;
-
-			color: $menutitle-text-color;
-			font-size: 5vmin;
-			font-weight: bold;
-			text-align: center;
-		}
-
-		&-menulist {
-			display: block;
-			flex: 1;
-			padding: 0 15vmin;
-
-			overflow: auto;
-		}
-
-		&-menuitem {
-			@include selectable;
-
-			display: list-item;
-			list-style: none;
-
-			color: $menuitem-text-color;
-			font-size: 3.5vmin;
-			line-height: 2;
-			text-align: center;
-
-			&:focus {
-				&::before {
-					color: $menuitem-background-color--selected;
-				}
-			}
-		}
 	}
 </style>
 
 <script>
 	import { mapState, mapGetters } from "vuex";
 
-	import { updateMenuState, toggleIsOpened } from "../../stores/actions/Menu";
+	import { updateMenuLayout, toggleIsOpened } from "../../stores/actions/Menu";
 	import { playSE } from "../../stores/actions/Audio";
 
 	import MenuPanel from "./MenuPanel.vue";
@@ -78,14 +43,12 @@
 
 		computed: {
 			...mapState({
-				title: state => state.Menu.title,
-				layouts: state => state.Menu.layouts,
 				isOpened: state => state.Menu.isOpened,
 			}),
 
-			...mapGetters([
-				"locales",
-			])
+			...mapGetters({
+				layouts: "Menu/layouts",
+			})
 		},
 
 		methods: {
@@ -104,7 +67,7 @@
 
 			handleKeyup (e) {
 				switch (e.keyCode) {
-					case 32:
+					case 88:
 						return this.toggle();
 					case 38:
 						return this.prev();
@@ -117,40 +80,7 @@
 		created () {
 			window.addEventListener("keyup", this.handleKeyup);
 
-			updateMenuState(this.$store, {
-				title: this.locales["menu_top-menu_title"],
-
-				layouts: [
-					{
-						id: "sidebar",
-
-						left: 0,
-						right: 35,
-						top: 0,
-						bottom: 100,
-
-						items: [
-							{
-								type: "pagination",
-								value: {
-									message: "シナリオ選択"
-								}
-							},
-
-							{
-								type: "divider"
-							},
-
-							{
-								type: "pagination",
-								value: {
-									message: "設定"
-								}
-							}
-						]
-					}
-				]
-			});
+			updateMenuLayout(this.$store, ["sidebar", "config"]);
 		},
 
 		beforeDestroy () {

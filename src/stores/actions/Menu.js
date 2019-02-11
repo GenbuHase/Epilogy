@@ -1,13 +1,13 @@
 import {
 	PREFIX,
-	MENU_STATE_UPDATE,
+	MENU_LAYOUT_UPDATE,
 	MENU_ISOPENED_TOGGLE,
 } from "../mutations/Menu";
 
-export function updateMenuState (store, state) {
+export function updateMenuLayout (store, layoutIds) {
 	store.commit({
-		type: PREFIX + MENU_STATE_UPDATE,
-		state
+		type: PREFIX + MENU_LAYOUT_UPDATE,
+		layoutIds
 	});
 }
 

@@ -1,0 +1,39 @@
+[
+	{
+		"id": "sidebar",
+
+		"left": 0, "right": 35,
+		"top": 0, "bottom": 100,
+
+		"items": [
+			{
+				"type": "pagination",
+				"value": {
+					"message": "シナリオ選択"
+				}
+			},
+
+			{
+				"type": "divider"
+			},
+
+			{
+				"type": "pagination",
+				"value": {
+					"message": "設定"
+				}
+			}
+		]
+	},
+
+	{
+		"id": "config",
+
+		"left": 35, "right": 100,
+		"top": 0, "bottom": 70,
+
+		"items": [
+			
+		]
+	}
+]

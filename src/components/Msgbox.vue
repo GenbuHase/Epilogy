@@ -272,8 +272,6 @@
 
 			handleKeyup (e) {
 				switch (e.keyCode) {
-					case 88:
-						return this.prev();
 					case 90:
 						return this.next();
 				}
