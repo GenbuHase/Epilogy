@@ -100,6 +100,7 @@
 
 	body {
 		margin: 0;
+		background: lighten($base-color, 15%);
 	}
 
 	#{$prefix} {

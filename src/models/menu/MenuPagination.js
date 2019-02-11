@@ -57,5 +57,5 @@ export default class MenuPagination {
  */
 
 /**
- * @typedef {[ String | Number, String ] | MenuPaginationObject} MenuPaginationCandidate
+ * @typedef {[ String | Number, Array<String> ] | MenuPaginationObject} MenuPaginationCandidate
  */

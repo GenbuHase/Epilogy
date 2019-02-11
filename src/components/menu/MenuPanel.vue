@@ -3,7 +3,13 @@
 		<Epilogy-Menu-BackButton v-show = "layout.backTo" />
 
 		<Epilogy-Menu-Menuitems>
-			<component v-for = "(item, index) in layout.items" :key = "Date.now() + '' + index" :is = "detectComponent(item)" :value = "item.value" :disabled = "item.disabled" />
+			<component
+				v-for = "(item, index) in layout.items"
+				:key = "Date.now() + '' + index"
+				:is = "detectComponent(item)"
+				v-bind = "item"
+				:defaultDisabled = "item.disabled"
+				:tabIndex = "index + 1" />
 		</Epilogy-Menu-Menuitems>
 	</Epilogy-Menu-Panel>
 </template>
@@ -22,6 +28,8 @@
 
 			max-width: 100%;
 			max-height: 100%;
+
+			overflow-y: auto;
 		}
 
 		&-menu-backbutton {
@@ -84,9 +92,12 @@
 				const { type, value } = itemObj;
 
 				switch (type) {
-					case "text": return MenuText;
-					case "pagination": return MenuPagination;
-					case "divider": return MenuDivider;
+					case "text":
+						return MenuText;
+					case "pagination":
+						return MenuPagination;
+					case "divider":
+						return MenuDivider;
 				}
 			}
 		},

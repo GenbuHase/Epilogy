@@ -54,6 +54,8 @@
 		methods: {
 			toggle () {
 				toggleIsOpened(this.$store);
+				updateMenuLayout(this.$store, this.isOpened ? ["sidebar_panel"] : [""]);
+
 				return playSE(this.$store, require(`../../assets/sounds/${this.isOpened ? "menu_open" : "menu_close"}.mp3`));
 			},
 
@@ -79,8 +81,6 @@
 
 		created () {
 			window.addEventListener("keyup", this.handleKeyup);
-
-			updateMenuLayout(this.$store, ["sidebar", "config"]);
 		},
 
 		beforeDestroy () {

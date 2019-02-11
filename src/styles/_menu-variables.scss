@@ -1,4 +1,5 @@
 /* Menu Colors */
 $menu-background-color: url("../../assets/component-background.png");
 $menuitem-text-color: $base-light-color;
-$menuitem-background-color--selected: darken($base-accent-color, 8%);
+$menuitem-text-color--disabled: darken($menuitem-text-color, 40%);
+$menuitem-background-color--selected: transparentize(darken($base-accent-color, 10%), 0.25);

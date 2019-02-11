@@ -3,7 +3,16 @@
 </template>
 
 <style lang="scss" scoped>
+	@import "../../styles/variables";
+	@import "../../styles/mixins";
 
+	#{$prefix} {
+		&-menu-text {
+			@include menuitem;
+
+			height: 7.5vmin;
+		}
+	}
 </style>
 
 <script>

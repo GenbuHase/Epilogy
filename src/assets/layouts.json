@@ -1,40 +1,52 @@
 [
 	{
-		"id": "sidebar",
+		"id": "sidebar_panel",
 
 		"left": 0, "right": 35,
 		"top": 0, "bottom": 100,
 
 		"items": [
-			{
-				"type": "pagination",
-				"value": {
-					"message": "シナリオ選択"
-				}
-			},
+			"メニュー",
+			{ "type": "divider" },
 
-			{
-				"type": "divider"
-			},
-
-			{
-				"type": "pagination",
-				"value": {
-					"message": "設定"
-				}
-			}
+			["シナリオ選択", ["sidebar_panel", "scenario_selector_panel"]],
+			{ "type": "divider" },
+			
+			["セーブ", ["sidebar_panel", "save_panel"]],
+			["ロード", ["sidebar_panel", "load_panel"]]
 		]
 	},
 
 	{
-		"id": "config",
+		"id": "scenario_selector_panel",
 
 		"left": 35, "right": 100,
-		"top": 0, "bottom": 70,
+		"top": 0, "bottom": 100,
 
 		"items": [
-			"MenuText",
-			["MenuPagination", "config"]
+			
+		]
+	},
+
+	{
+		"id": "save_panel",
+
+		"left": 35, "right": 100,
+		"top": 0, "bottom": 100,
+
+		"items": [
+			"――　セーブ　――"
+		]
+	},
+
+	{
+		"id": "load_panel",
+
+		"left": 35, "right": 100,
+		"top": 0, "bottom": 100,
+
+		"items": [
+			"――　ロード　――"
 		]
 	}
 ]

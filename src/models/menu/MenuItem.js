@@ -12,7 +12,7 @@ export default class MenuItem {
 	/**
 	 * MenuItemオブジェクトに変換します
 	 * 
-	 * @param {String | Number | [String | Number, String] | MenuItemObject} itemObj
+	 * @param {String | Number | [String | Number, Array<String>] | MenuItemObject} itemObj
 	 * @return {MenuItemObject}
 	 */
 	static compile (itemObj = {}) {
