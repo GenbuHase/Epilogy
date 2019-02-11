@@ -13,6 +13,9 @@
 		&-msgbox {
 			@include root-component;
 
+			position: absolute;
+			bottom: 0;
+
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -27,7 +30,7 @@
 			
 			color: $dialog-text-color;
 
-			transition: opacity 0.1s ease;
+			transition: opacity 0.5s ease;
 
 			&[read] {
 				&::after {
@@ -86,7 +89,10 @@
 			}),
 
 			open () {
-				return this.dialogue != null;
+				if (!this.dialogue) return false;
+				if (["fade-in", "fade-out"].includes(this.dialogue.type)) return false;
+
+				return true;
 			}
 		},
 
@@ -138,13 +144,6 @@
 			},
 			
 			initToRead () {
-				const { simpleMsg, promptMsg } = this.$refs;
-
-				/*for (const char of simpleMsg.$el.children) char.removeAttribute("read");
-				for (const item of promptMsg.$el.children) {
-					for (const char of item.children) char.removeAttribute("read");
-				}*/
-
 				this.hasRead = false;
 				this.$set(this, "readQues", { simple: [], prompt: [] });
 			},

@@ -1,7 +1,9 @@
 <template>
 	<Epilogy :style = "{ width: screenSize + 'px', height: screenSize + 'px' }">
 		<Menu />
-		<BackScreen ref = "backScreen" />
+		<BackScreen
+			ref = "backScreen"
+			src = "https://images.pexels.com/photos/371633/pexels-photo-371633.jpeg" />
 
 		<Msgbox
 			@fade-in:start = "handleFadeIn"

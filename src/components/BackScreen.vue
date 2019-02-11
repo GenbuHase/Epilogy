@@ -9,12 +9,13 @@
 
 	#{$prefix} {
 		&-backscreen {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			flex: 1;
+			position: absolute;
+			
+			display: block;
+			width: 100%;
+			height: 100%;
 
-			background: transparent center / contain no-repeat;
+			background: transparent center / cover no-repeat;
 			background-color: transparent;
 			background-blend-mode: overlay;
 
