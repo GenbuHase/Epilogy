@@ -89,7 +89,7 @@
 
 			open () {
 				if (!this.dialogue) return false;
-				if ([FadeInDialogue.type, FadeOutDialogue.type].includes(this.dialogue.type)) return false;
+				if ([FadeInDialogue.type, FadeOutDialogue.type, AwaitDialogue.type].includes(this.dialogue.type)) return false;
 
 				return true;
 			}
