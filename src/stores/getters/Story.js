@@ -12,7 +12,19 @@ export default {
 
 			"heroineName": getters.heroineName,
 			"heroineName.first": state.heroineName.first,
-			"heroineName.last": state.heroineName.last
+			"heroineName.last": state.heroineName.last,
+
+			"friendAName": "冴羽 駿",
+			"friendAName.first": "駿",
+			"friendAName.last": "冴羽",
+
+			"friendBName": "山口 修二",
+			"friendBName.first": "修二",
+			"friendBName.last": "山口",
+
+			"teacherName": "荒木先生",
+			"teacherName.first": "聡",
+			"teacherName.last": "荒木"
 		}
 
 		const dialogues = [];
