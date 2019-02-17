@@ -28,7 +28,8 @@ export default class FadeInDialogue {
 					duration: dialogueObj.value
 				},
 
-				label: dialogueObj.label || {}
+				label: dialogueObj.label || {},
+				forCleared: dialogueObj.forCleared || null
 			}
 		}
 
@@ -40,7 +41,8 @@ export default class FadeInDialogue {
 					duration: dialogueObj.value.duration
 				},
 
-				label: dialogueObj.label || {}
+				label: dialogueObj.label || {},
+				forCleared: dialogueObj.forCleared || null
 			}
 		}
 
@@ -56,12 +58,16 @@ export default class FadeInDialogue {
  * @prop {Object} value
  * @prop {String} value.to
  * @prop {Number} value.duration
+ * 
  * @prop {Label} label
+ * @prop {Boolean} [forCleared]
  */
 
 /**
  * @typedef {Object} FadeInCandidate
  * @prop {"fade-in"} type
  * @prop {Number | { to: String, duration: Number }} value
+ * 
  * @prop {Label} label
+ * @prop {Boolean} [forCleared]
  */

@@ -25,7 +25,9 @@ export default class AwaitDialogue {
 
 		return {
 			type: this.type,
-			value: dialogueObj.value
+			value: dialogueObj.value,
+
+			forCleared: dialogueObj.forCleared || null
 		}
 	}
 }
@@ -36,4 +38,6 @@ export default class AwaitDialogue {
  * @typedef {Object} AwaitDialogueObject
  * @prop {"await"} type
  * @prop {Number} value  A duration
+ * 
+ * @prop {Boolean} [forCleared]
  */

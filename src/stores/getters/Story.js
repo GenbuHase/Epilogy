@@ -17,7 +17,7 @@ export default {
 
 		const dialogues = [];
 
-		const plainDialogues = rootGetters["Loader/stories"][`${ chapter }${ section ? ` ${ section }` : "" }`] || [];
+		const plainDialogues = rootGetters["Loader/stories"][`${ chapter }${ section ? `-${ section }` : "" }`] || [];
 		for (const dialogue of plainDialogues) {
 			const compiled = Dialogue.compile(dialogue);
 			

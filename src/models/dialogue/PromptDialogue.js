@@ -18,45 +18,52 @@ export default class PromptDialogue {
 	 * @return {PromptDialogueObject}
 	 */
 	static compile (dialogueObj = {}) {
-		if (!Type.isObject(dialogueObj) || dialogueObj.type !== this.type) throw new DialogueCompileError();
-		if (!Array.isArray(dialogueObj.value)) throw new DialogueCompileError();
+		if (
+			!Type.isObject(dialogueObj) || dialogueObj.type !== this.type ||
+			!Array.isArray(dialogueObj.value)
+		) throw new DialogueCompileError();
 
-		return dialogueObj.value.filter(item => {
-			if (typeof item === "string" || typeof item === "number") {
-				return {
-					message: item,
-					label: {}
+		return {
+			type: this.type,
+			value: dialogueObj.value.map(item => {
+				if (typeof item === "string" || typeof item === "number") {
+					return {
+						message: item,
+						label: {}
+					}
 				}
-			}
-
-			if (Array.isArray(item)) {
-				if (!item.length) return;
-
-				if (
-					!["string", "number"].includes(typeof item[0]) ||
-					!Type.isObject(item[1])
-				) throw new DialogueCompileError();
-				
-				return {
-					message: item[0],
-					label: item[1]
+	
+				if (Array.isArray(item)) {
+					if (!item.length) return;
+	
+					if (
+						!["string", "number"].includes(typeof item[0]) ||
+						!Type.isObject(item[1])
+					) throw new DialogueCompileError();
+					
+					return {
+						message: item[0],
+						label: item[1]
+					}
 				}
-			}
-
-			if (Type.isObject(item)) {
-				if (
-					!["string", "number"].includes(typeof item.message) ||
-					!Type.isObject(item.label)
-				) throw new DialogueCompileError();
-				
-				return {
-					message: item.message,
-					label: item.label
+	
+				if (Type.isObject(item)) {
+					if (
+						!["string", "number"].includes(typeof item.message) ||
+						!Type.isObject(item.label)
+					) throw new DialogueCompileError();
+					
+					return {
+						message: item.message,
+						label: item.label,
+					}
 				}
-			}
-
-			throw new DialogueCompileError();
-		});
+	
+				throw new DialogueCompileError();
+			}),
+			
+			forCleared: dialogueObj.forCleared || null
+		}
 	}
 }
 
@@ -66,10 +73,14 @@ export default class PromptDialogue {
  * @typedef {Object} PromptDialogueObject
  * @prop {"prompt"} type
  * @prop {Array<{ message: String | Number, label: Label }>} value
+ * 
+ * @prop {Boolean} [forCleared]
  */
 
 /**
  * @typedef {Object} PromptCandidate
  * @prop {"prompt"} type
  * @prop {Array<{ message: String | Number, label: Label } | String | Number | [ String | Number, Label ]>} value
+ * 
+ * @prop {Boolean} [forCleared]
  */

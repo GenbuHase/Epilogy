@@ -25,7 +25,9 @@ export default class SEDialogue {
 
 		return {
 			type: this.type,
-			value: dialogueObj.value
+			value: dialogueObj.value,
+
+			forCleared: dialogueObj.forCleared || null
 		}
 	}
 }
@@ -36,4 +38,6 @@ export default class SEDialogue {
  * @typedef {Object} SEDialogueObject
  * @prop {"se"} type
  * @prop {String} value  A path of sound file
+ * 
+ * @prop {Boolean} [forCleared]
  */

@@ -45,7 +45,7 @@
 
 		methods: {
 			initSelection () {
-				if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) {
+				if (!document.activeElement.matches("Epilogy-Msgbox-PromptMessage > Li")) {
 					if (this.$el.firstElementChild) this.$el.firstElementChild.focus();
 				}
 			},

@@ -32,7 +32,8 @@ export default class MessageDialogue {
 				value: dialogueObj,
 
 				label: {},
-				readSpeed: null
+				readSpeed: null,
+				forCleared: null
 			}
 		}
 
@@ -42,7 +43,8 @@ export default class MessageDialogue {
 				value: dialogueObj.filter(col => this.compile(col, true)).join("\n"),
 
 				label: {},
-				readSpeed: null
+				readSpeed: null,
+				forCleared: null
 			}
 		}
 
@@ -57,7 +59,8 @@ export default class MessageDialogue {
 			value: dialogueObj.value || "",
 
 			label: dialogueObj.label || {},
-			readSpeed: dialogueObj.readSpeed || null
+			readSpeed: dialogueObj.readSpeed || null,
+			forCleared: dialogueObj.forCleared || null
 		}
 	}
 }
@@ -68,8 +71,10 @@ export default class MessageDialogue {
  * @typedef {Object} MessageDialogueObject
  * @prop {"message"} type
  * @prop {String | Number} value
+ * 
  * @prop {Label} label
- * @prop {Number | null} readSpeed
+ * @prop {Number} [readSpeed]
+ * @prop {Boolean} [forCleared]
  */
 
 /**

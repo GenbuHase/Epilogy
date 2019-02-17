@@ -264,7 +264,7 @@
 				}
 
 				if (dialogue.type === PromptDialogue.type) {
-					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
+					if (!document.activeElement.matches("Epilogy-Msgbox-PromptMessage > Li")) return;
 
 					playSE(this.$store, require("../assets/sounds/ok.mp3"));
 
