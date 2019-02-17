@@ -21,22 +21,16 @@ export default class Dialogue {
 	static compile (dialogueObj = {}) {
 		if (!Type.isObject(dialogueObj)) return new MessageDialogue(dialogueObj);
 
-		switch (dialogueObj.type) {
-			default:
-				throw new DialogueCompileError();
-			case MessageDialogue.type:
-				return new MessageDialogue(dialogueObj);
-			case PromptDialogue.type:
-				return new PromptDialogue(dialogueObj);
-			case FadeInDialogue.type:
-				return new FadeInDialogue(dialogueObj);
-			case FadeOutDialogue.type:
-				return new FadeOutDialogue(dialogueObj);
-			case SEDialogue.type:
-				return new SEDialogue(dialogueObj);
-			case AwaitDialogue.type:
-				return new AwaitDialogue(dialogueObj);
-		}
+		for (const dialogueModel of [
+			MessageDialogue,
+			PromptDialogue,
+			FadeInDialogue,
+			FadeOutDialogue,
+			SEDialogue,
+			AwaitDialogue
+		]) if (dialogueObj.type === dialogueModel.type) return new dialogueModel(dialogueObj);
+
+		throw new DialogueCompileError();
 	}
 }
 
