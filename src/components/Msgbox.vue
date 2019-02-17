@@ -287,11 +287,16 @@
 					case 90:
 						return this.next();
 				}
+			},
+
+			handleTouchend (e) {
+				this.next();
 			}
 		},
 
 		created () {
 			window.addEventListener("keyup", this.handleKeyup);
+			window.addEventListener("touchend", this.handleTouchend);
 		},
 
 		mounted () {
@@ -300,6 +305,7 @@
 
 		beforeDestroy () {
 			window.removeEventListener("keyup", this.handleKeyup);
+			window.removeEventListener("touchend", this.handleTouchend);
 		},
 
 		updated () {
