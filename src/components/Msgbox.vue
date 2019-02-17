@@ -60,22 +60,21 @@
 	import { updateStoryStatus } from "../stores/actions/Story";
 	import { playSE } from "../stores/actions/Audio";
 
+	import MessageDialogue from "../models/dialogue/MessageDialogue";
+	import PromptDialogue from "../models/dialogue/PromptDialogue";
+	import FadeInDialogue from "../models/dialogue/FadeInDialogue";
+	import FadeOutDialogue from "../models/dialogue/FadeOutDialogue";
+	import AwaitDialogue from "../models/dialogue/AwaitDialogue";
+
 	import SimpleMessage from "./messages/SimpleMessage.vue";
 	import PromptMessage from "./messages/PromptMessage.vue";
 
 	import Type from "../utils/Type";
 
-	const readSpeed = 50;
+	const defaultReadSpeed = 50;
 
 	export default {
 		components: { SimpleMessage, PromptMessage },
-
-		data () {
-			return {
-				hasRead: false,
-				readQues: { simple: [], prompt: [] }
-			};
-		},
 
 		computed: {
 			...mapState({
@@ -90,9 +89,16 @@
 
 			open () {
 				if (!this.dialogue) return false;
-				if (["fade-in", "fade-out"].includes(this.dialogue.type)) return false;
+				if ([FadeInDialogue.type, FadeOutDialogue.type].includes(this.dialogue.type)) return false;
 
 				return true;
+			}
+		},
+
+		data () {
+			return {
+				hasRead: false,
+				readQues: { simple: [], prompt: [] }
 			}
 		},
 
@@ -125,25 +131,28 @@
 				this.initToRender();
 				if (!dialogue) return;
 
-				if (["fade-in", "fade-out"].includes(dialogue.type)) {
+				switch (dialogue.type) {
+					case MessageDialogue.type:
+						simpleMsg.message = dialogue.value;
+						break;
+
+					case PromptDialogue.type:
+						promptMsg.items = dialogue.value;
+						break;
+				}
+
+				if ([FadeInDialogue.type, FadeOutDialogue.type].includes(dialogue.type)) {
 					return this.$emit(`${dialogue.type}:start`);
 				}
 
-				switch (dialogue.type) {
-					case "message":
-						if (typeof dialogue.value === "string") simpleMsg.message = dialogue.value;
-						if (Array.isArray(dialogue.value)) simpleMsg.message = dialogue.value.join("\n");
-						break;
-
-					case "prompt":
-						promptMsg.items = dialogue.value;
-						break;
+				if (dialogue.type === AwaitDialogue.type) {
+					return setTimeout(() => updateStoryStatus(this.$store, { dialogueId: this.dialogueId + 1 }), dialogue.value);
 				}
 
 				this.$nextTick().then(() => this.startToRead());
 			},
 			
-			initToRead () {
+			initReading () {
 				this.hasRead = false;
 				this.$set(this, "readQues", { simple: [], prompt: [] });
 			},
@@ -151,7 +160,7 @@
 			startToRead () {
 				const { simpleMsg, promptMsg } = this.$refs;
 				
-				this.initToRead();
+				this.initReading();
 
 				new Promise(resolve => {
 					const chars = simpleMsg.$el.children;
@@ -165,7 +174,7 @@
 							chars[i].scrollIntoView({ behavior: "instant", block: "end" });
 
 							if (i == chars.length - 1) return resolve();
-						}, readSpeed * i));
+						}, (this.dialogue.readSpeed || defaultReadSpeed) * i));
 					}
 				}).then(() => {
 					const items = Array.prototype.map.call(promptMsg.$el.children, item => item.children);
@@ -183,14 +192,14 @@
 									chars[i].scrollIntoView({ behavior: "instant", block: "end" });
 
 									if (i == chars.length - 1) looper.call(this, ++itemId);
-								}, readSpeed * i));
+								}, defaultReadSpeed * i));
 							}
 						}).call(this, 0);
 					});
-				}).then(() => this.afterReading());
+				}).then(() => this.initNextReading());
 			},
 
-			afterReading () {
+			initNextReading () {
 				while (this.readQues.simple.length) {
 					if (this.readQues.simple[0]) clearTimeout(this.readQues.simple[0]);
 					this.$delete(this.readQues.simple, 0);
@@ -223,7 +232,7 @@
 					}
 				}
 
-				this.afterReading();
+				this.initNextReading();
 			},
 
 			prev () {
@@ -233,10 +242,14 @@
 			next () {
 				const { dialogue } = this;
 
-				if (!dialogue || ["fade-in", "fade-out"].includes(dialogue.type)) return;
+				if (
+					!dialogue ||
+					[FadeInDialogue.type, FadeOutDialogue.type, AwaitDialogue.type].includes(dialogue.type)
+				) return;
+
 				if (!this.hasRead) return this.skipReading();
 
-				if (dialogue.type === "message") {
+				if (dialogue.type === MessageDialogue.type) {
 					playSE(this.$store, require("../assets/sounds/read.mp3"));
 					
 					if (!Type.includeKeys(dialogue.label, ["chapter", "section", "dialogue"])) {
@@ -250,7 +263,7 @@
 					});
 				}
 
-				if (dialogue.type === "prompt") {
+				if (dialogue.type === PromptDialogue.type) {
 					if (!document.activeElement.matches("Epilogy-PromptMessage > Li")) return;
 
 					playSE(this.$store, require("../assets/sounds/ok.mp3"));

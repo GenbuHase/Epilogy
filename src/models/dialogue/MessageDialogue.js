@@ -39,7 +39,7 @@ export default class MessageDialogue {
 		if (Array.isArray(dialogueObj)) {
 			return {
 				type: this.type,
-				value: dialogueObj.filter(col => this.compile(col, true)),
+				value: dialogueObj.filter(col => this.compile(col, true)).join("\n"),
 
 				label: {},
 				readSpeed: null
@@ -49,7 +49,7 @@ export default class MessageDialogue {
 		if (!Type.isObject(dialogueObj) || dialogueObj.type !== this.type) throw new DialogueCompileError();
 
 		if (Array.isArray(dialogueObj.value)) {
-			dialogueObj.value = dialogueObj.value.filter(col => this.compile(col, true));
+			dialogueObj.value = dialogueObj.value.filter(col => this.compile(col, true)).join("\n");
 		}
 
 		return {
@@ -67,7 +67,7 @@ export default class MessageDialogue {
 /**
  * @typedef {Object} MessageDialogueObject
  * @prop {"message"} type
- * @prop {String | Number | Array<String>} value
+ * @prop {String | Number} value
  * @prop {Label} label
  * @prop {Number | null} readSpeed
  */

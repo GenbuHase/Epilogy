@@ -1,8 +1,8 @@
 import Type from "../../utils/Type";
-import { DialogueCompileError, Label } from "./Dialogue";
+import { DialogueCompileError } from "./Dialogue";
 
 export default class FadeOutDialogue {
-	/** @param {FadeOutCandidate} dialogueObj */
+	/** @param {FadeOutDialogueObject} dialogueObj */
 	constructor (dialogueObj) {
 		return FadeOutDialogue.compile(dialogueObj);
 	}
@@ -14,20 +14,19 @@ export default class FadeOutDialogue {
 	/**
 	 * FadeOutDialogueオブジェクトに変換します
 	 * 
-	 * @param {FadeOutCandidate} dialogueObj
+	 * @param {FadeOutDialogueObject} dialogueObj
 	 * @return {FadeOutDialogueObject}
 	 */
 	static compile (dialogueObj = {}) {
-		if(!Type.isObject(dialogueObj) || dialogueObj.type !== this.type) throw new DialogueCompileError();
+		if (
+			!Type.isObject(dialogueObj) || dialogueObj.type !== this.type ||
+			typeof dialogueObj.value !== "number"
+		) throw new DialogueCompileError();
 
-		if (typeof dialogueObj.value === "number") {
-			return {
-				type: this.type,
-				value: dialogueObj.value
-			}
+		return {
+			type: this.type,
+			value: dialogueObj.value
 		}
-
-		throw new DialogueCompileError();
 	}
 }
 
@@ -36,7 +35,5 @@ export default class FadeOutDialogue {
 /**
  * @typedef {Object} FadeOutDialogueObject
  * @prop {"fade-out"} type
- * @prop {Number} value
+ * @prop {Number} value  A duration
  */
-
-/** @typedef {FadeOutDialogueObject} FadeOutCandidate */

@@ -4,6 +4,8 @@ import MessageDialogue, { MessageDialogueObject } from "./MessageDialogue";
 import PromptDialogue, { PromptDialogueObject } from "./PromptDialogue";
 import FadeInDialogue, { FadeInDialogueObject } from "./FadeInDialogue";
 import FadeOutDialogue, { FadeOutDialogueObject } from "./FadeOutDialogue";
+import SEDialogue, { SEDialogueObject } from "./SEDialogue";
+import AwaitDialogue, { AwaitDialogueObject } from "./AwaitDialogue";
 
 export default class Dialogue {
 	constructor (dialogueObj) {
@@ -30,6 +32,10 @@ export default class Dialogue {
 				return new FadeInDialogue(dialogueObj);
 			case FadeOutDialogue.type:
 				return new FadeOutDialogue(dialogueObj);
+			case SEDialogue.type:
+				return new SEDialogue(dialogueObj);
+			case AwaitDialogue.type:
+				return new AwaitDialogue(dialogueObj);
 		}
 	}
 }
@@ -45,7 +51,7 @@ export class DialogueCompileError extends TypeError {
 
 
 /**
- * @typedef {MessageDialogueObject | PromptDialogueObject | FadeInDialogueObject | FadeOutDialogueObject} DialogueObject
+ * @typedef {MessageDialogueObject | PromptDialogueObject | FadeInDialogueObject | FadeOutDialogueObject | SEDialogueObject | AwaitDialogueObject} DialogueObject
  */
 
 /**
